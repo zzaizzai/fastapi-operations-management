@@ -11,23 +11,51 @@ def initialize_database():
     cursor.execute('''
         DROP TABLE IF EXISTS products;
     ''')
-
+    
+    cursor.execute('''
+        DROP TABLE IF EXISTS products_model;
+    ''')
+    
+    cursor.execute('''
+        DROP TABLE IF EXISTS products_history;
+    ''')
+    
     cursor.execute('''
         DROP TABLE IF EXISTS parts;
+    ''')
+    
+    # 새로운 테이블 생성
+    cursor.execute('''
+        CREATE TABLE products_model (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            location_produce TEXT DEFAULT "factory1" ,
+            customer TEXT DEFAULT "toyota",
+            price_sell INTEGER
+        );
     ''')
 
     # 새로운 테이블 생성
     cursor.execute('''
-        CREATE TABLE products (
+        CREATE TABLE products_history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL
+            name TEXT NOT NULL,
+            lot INTEGER,
+            datetime_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+            datetime_produced DATETIME, 
+            datetime_due DATETIME,
+            datetime_sold DATETIME, 
+            location_current TEXT DEFAULT "factory1" 
+            
         );
     ''')
 
     cursor.execute('''
         CREATE TABLE parts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            description TEXT NOT NULL
+            name TEXT NOT NULL,
+            parent_product_id INTEGER,
+            
         );
     ''')
 
@@ -44,7 +72,7 @@ def add_part(description):
 
 def add_product(name):
     cursor = db.cursor()
-    cursor.execute('INSERT INTO products (name) VALUES (?)', (name,))
+    cursor.execute('INSERT INTO products_model (name) VALUES (?)', (name,))
     db.commit()    
 
 if __name__ == "__main__":

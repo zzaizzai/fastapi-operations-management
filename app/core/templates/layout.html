@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>hello</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <nav>
+        <!-- 네비게이션 메뉴 -->
+        {% include "nav.html" %}
+    </nav>
+    <div class="content">
+        <!-- 페이지 특정 내용이 여기에 들어갑니다. -->
+        {% block content %}{% endblock %}
+    </div>
+    <footer>
+        <!-- 푸터 내용 -->
+    </footer>
+</body>
+</html>

@@ -1,0 +1,90 @@
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* 호버 효과 - 마우스 오버시 배경 색상 변경 */
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* 선택 효과 - 클릭 시 약간의 내려가는 효과 */
+.button:active {
+    position: relative;
+    top: 2px;
+}
+
+/* 글자가 긴 경우를 위한 버튼 크기 자동 조정 */
+.button-auto {
+    padding: 10px 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 빨간색 버튼 */
+.button-red {
+    background-color: #FF0000;
+    transition: background-color 0.3s ease;
+}
+
+.button-red:hover {
+    background-color: #FF3333; /* 호버 효과: 빨간색을 조금 밝게 */
+}
+
+/* 파란색 버튼 */
+.button-blue {
+    background-color: #007BFF;
+    transition: background-color 0.3s ease;
+}
+
+.button-blue:hover {
+    background-color: #0056b3; /* 호버 효과: 파란색을 어둡게 */
+}
+
+/* 회색 버튼 */
+.button-gray {
+    background-color: #808080;
+    transition: background-color 0.3s ease;
+}
+
+.button-gray:hover {
+    background-color: #666666; /* 호버 효과: 회색을 어둡게 */
+}
+
+/* 노란색 버튼 */
+.button-yellow {
+    background-color: #FFFF00;
+    transition: background-color 0.3s ease;
+}
+
+.button-yellow:hover {
+    background-color: #FFD700; /* 호버 효과: 노란색을 밝게 */
+}
+
+/* 초록색 버튼 */
+.button-green {
+    background-color: #008000;
+    transition: background-color 0.3s ease;
+}
+
+.button-green:hover {
+    background-color: #006400; /* 호버 효과: 초록색을 어둡게 */
+}
+
+.mx-5 {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}

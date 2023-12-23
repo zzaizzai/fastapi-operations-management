@@ -24,7 +24,6 @@ def close_database_connection():
 
 # 딕셔너리 형태로 결과 가져오는 함수
 def fetch_all_as_dict(cursor):
-    cursor.execute('SELECT * FROM products')
     rows = cursor.fetchall()
     columns = [column[0] for column in cursor.description]
     return [dict(zip(columns, row)) for row in rows]
