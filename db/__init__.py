@@ -1,0 +1,30 @@
+import sqlite3
+
+
+DATABASE_URL = 'database.db'
+
+
+class DatabaseManager:
+    def __init__(self):
+        self.conn = sqlite3.connect(DATABASE_URL)
+        self.conn.row_factory = sqlite3.Row  # row_factory 설정
+    
+    def get_cursor(self):
+        return self.conn.cursor()
+    
+    def close(self):
+        self.conn.close()
+
+# 데이터베이스 매니저 인스턴스 생성
+db_manager = DatabaseManager()
+
+# 데이터베이스 커넥션 닫기 위한 함수
+def close_database_connection():
+    db_manager.close()
+
+# 딕셔너리 형태로 결과 가져오는 함수
+def fetch_all_as_dict(cursor):
+    cursor.execute('SELECT * FROM products')
+    rows = cursor.fetchall()
+    columns = [column[0] for column in cursor.description]
+    return [dict(zip(columns, row)) for row in rows]
