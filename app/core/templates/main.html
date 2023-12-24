@@ -2,12 +2,110 @@
 
 {% block content %}
 <h1>Welcome to the Main Page</h1>
-
+<style>
+    #spinnerContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    </style>
 <div>
     <a href="{{ url_for('products_index_page') }}" class="button button-red mx-5">Products</a>
 </div>
 
 <div>
-    <a href="" class="button mx-5">Parts</a>
+    <a href="{{ url_for('parts_index_page') }}" class="button mx-5">Parts</a>
 </div>
+
+
+<div>
+    <a id="createDemoData" href="#" class="button button-green mx-5" style="position: relative;">
+        <span id="textLabel">Create Demo Data</span>
+        <div id="spinnerContainer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;"></div>
+    </a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+<script>
+
+var isAjaxInProgress = false; // AJAX 요청 진행 중 여부를 저장하는 변수
+
+$("#createDemoData").click(function () {
+    // 이미 AJAX 요청이 진행 중이면 클릭 이벤트를 무시
+    if (isAjaxInProgress) {
+        return;
+    }
+
+    // 버튼을 비활성화하고 텍스트를 투명하게 만들고 스핀 아이콘을 표시
+    $("#createDemoData").attr("disabled", true);
+    $("#textLabel").css("opacity", "0.5");
+
+    // Spin.js 설정
+    var opts = {
+        lines: 8,
+        length: 28,
+        width: 22,
+        radius: 45,
+        scale: 0.2,
+        corners: 1,
+        speed: 1.0,
+        rotate: 0,
+        animation: 'spinner-line-fade-default',
+        direction: 1,
+        color: '#000000',
+        fadeColor: 'transparent',
+        top: '51%',
+        left: '50%',
+        shadow: '0 0 1px transparent',
+        zIndex: 2000000000,
+        className: 'spinner',
+        position: 'absolute',
+    };
+
+    // Spin.js로 스핀 아이콘 생성 및 시작
+    var spinner = new Spinner(opts).spin(document.getElementById("spinnerContainer"));
+    $('#spinnerContainer').show();
+
+    // AJAX 요청 진행 중임을 표시
+    isAjaxInProgress = true;
+
+    // AJAX 요청 보내기
+    $.ajax({
+        type: "GET",
+        url: "{{ url_for('api_create_demodata') }}",
+        success: function (response) {
+            console.log("done");
+
+            // AJAX 요청 완료 후 버튼을 활성화하고 텍스트를 다시 보이게 하고 스핀 아이콘을 중지하고 컨테이너를 숨김
+            $("#createDemoData").attr("disabled", false);
+            $("#textLabel").css("opacity", "1");
+            spinner.stop();
+            $('#spinnerContainer').hide();
+            console.log(response)
+            // 현재 #message 요소의 텍스트 값을 가져와서 message 변수에 할당
+            var message = $('#message').text('Message: creating demo data done');
+
+            // message 변수의 값을 변경
+
+            // message 변수가 포함된 요소에 "highlight" 클래스 추가
+            $('#message').addClass('message-green');
+            // AJAX 요청 완료 후 AJAX 요청 진행 중 여부를 false로 설정
+            isAjaxInProgress = false;
+        },
+        error: function () {
+            alert("Failed to fetch data.");
+
+            // 에러 발생 시 버튼을 활성화하고 텍스트를 다시 보이게 하고 스핀 아이콘을 중지하고 컨테이너를 숨김
+            $("#createDemoData").attr("disabled", false);
+            $("#textLabel").css("opacity", "1");
+            spinner.stop();
+            $('#spinnerContainer').hide();
+
+            // 에러 발생 시 AJAX 요청 진행 중 여부를 false로 설정
+            isAjaxInProgress = false;
+        }
+    });
+});
+</script>
+
 {% endblock %}

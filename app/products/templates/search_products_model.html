@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<h2>Search Page</h2>
+
+<style>
+    /* 검색 결과에 대한 하이라이트 스타일 */
+    .highlight {
+        background-color: yellow;
+        font-weight: bold;
+    }
+</style>
+
+<!-- Search Bar -->
+<form  method="get">
+    <input class="styled-input" name="q" type="text" value="{{q}}">
+    <button class="button button-green" type="submit">Search</button>
+</form>
+
+
+{% if products %}
+    {% for product in products %}
+        <div>
+            <span>{{product.id}}</span>
+            <span class="anchor-highlight">{{product.name}}</span>
+            <span>{{product.customer}}</span>
+            <span>{{product.location_produce}}</span>
+            <span>{{product.price_sell}}</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        var searchTerm = "{{ q }}";
+        if (searchTerm) {
+            $(".anchor-highlight").each(function () {
+                var titleText = $(this).text();
+                var highlightedText = titleText.replace(new RegExp(searchTerm, "gi"), function (match) {
+                    return '<span class="highlight">' + match + '</span>';
+                });
+                $(this).html(highlightedText);
+            });
+        }
+    });
+</script>
+
+
+
+{% endblock %}

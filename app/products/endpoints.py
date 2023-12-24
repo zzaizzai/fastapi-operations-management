@@ -11,6 +11,43 @@ templates = Jinja2Templates(directory=["app/core/templates", "app/products/templ
 async def products_index_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+@router.get("/search")
+async def search_products_model(request: Request, q: str = None):
+    html = "search_products_model.html"
+    
+    context = {}
+    context['request'] = request
+    context['q'] = q
+    
+    if q is None or len(q) == 0:
+        context['q'] = ''
+        return templates.TemplateResponse(html, context)
+    
+    cursor = db_manager.get_cursor()
+    cursor.execute(f"""
+        SELECT 
+            *
+        FROM 
+            products_model
+        WHERE 
+            products_model.name LIKE '%{q}%'
+        """)
+        
+    
+    products = fetch_all_as_dict(cursor)
+    print(products)
+    cursor.close()
+
+    
+    if len(products) == 0 :
+        context['msg'] = "No result"
+        return templates.TemplateResponse(html, context)
+
+    context['products'] = products
+    
+    return templates.TemplateResponse(html, context)
+
+
 
 @router.get("/api/get_all")
 async def api_get_all_products_model():

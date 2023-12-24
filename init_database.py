@@ -1,4 +1,5 @@
 import sqlite3
+import random
 
 # SQLite 데이터베이스 연결
 db = sqlite3.connect('database.db')
@@ -22,6 +23,10 @@ def initialize_database():
     
     cursor.execute('''
         DROP TABLE IF EXISTS parts;
+    ''')
+    
+    cursor.execute('''
+        DROP TABLE IF EXISTS parts_model;
     ''')
     
     # 새로운 테이블 생성
@@ -51,37 +56,76 @@ def initialize_database():
     ''')
 
     cursor.execute('''
-        CREATE TABLE parts (
+        CREATE TABLE parts_model (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            parent_product_id INTEGER,
+            parent_product_id INTEGER
             
         );
     ''')
 
     # 변경 사항 저장
     db.commit()
-    
+    cursor.close()
     # 데이터베이스 연결 닫기
 
-def add_part(description):
+def get_random_string_product() -> str:
+    characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    numbers = "0123456789"  # 0부터 9까지의 숫자
+    
+    random_word = ''.join(random.choice(characters) for _ in range(5))
+    
+    # 랜덤한 숫자 부분 생성 (예: 00325)
+    random_numbers = ''.join(random.choice(numbers) for _ in range(5))  # 원하는 숫자 길이를 지정
+    
+    # 문자열과 숫자를 연결하여 반환
+    result = random_word + '-' + random_numbers
+    return result
+
+def get_random_string_part() -> str:
+    characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    numbers = "0123456789"  # 0부터 9까지의 숫자
+    
+    random_word = ''.join(random.choice(characters) for _ in range(5))
+    
+    # 랜덤한 숫자 부분 생성 (예: 00325)
+    random_numbers = ''.join(random.choice(numbers) for _ in range(5))  # 원하는 숫자 길이를 지정
+    # 랜덤한 숫자 부분 생성 (예: 00325)
+    random_numbers_second = ''.join(random.choice(numbers) for _ in range(2))  # 원하는 숫자 길이를 지정
+    # 문자열과 숫자를 연결하여 반환
+    result = random_word + '-' + random_numbers + '-' + random_numbers_second
+    return result
+
+
+
+def add_part(name, parent_product_id):
     cursor = db.cursor()
-    cursor.execute('INSERT INTO parts (description) VALUES (?)', (description,))
+    cursor.execute('INSERT INTO parts_model (name, parent_product_id) VALUES (?, ?)', (name, parent_product_id))
     db.commit()
-
-
+    cursor.close()
+    
+    
 def add_product(name):
     cursor = db.cursor()
     cursor.execute('INSERT INTO products_model (name) VALUES (?)', (name,))
     db.commit()    
+    cursor.close()
 
-if __name__ == "__main__":
+def create_demodata() -> None:
     initialize_database()
+
+    for _ in range(1, 100):
+        add_product(get_random_string_product())
+
+    for i in range(1, 100):
+        add_part(get_random_string_part(), i)
+        add_part(get_random_string_part(), i)
+        add_part(get_random_string_part(), i)
+        add_part(get_random_string_part(), i)
+        add_part(get_random_string_part(), i)
+    
     print("Database initialized and tables created.")
-    add_product('AAA')
-    add_product('BBB')
-    add_product('CCC')
-    add_part('AAA')
-    add_part('BBB')
-    add_part('CCC')
-    db.close()
+    
+if __name__ == "__main__":
+    create_demodata()
+    

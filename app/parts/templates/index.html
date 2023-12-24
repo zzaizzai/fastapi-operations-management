@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+
+<div>
+    <a href="" class="button button-blue mx-5">Make Product Orders</a>
+</div>
+
+<div>
+    <a href="{{ url_for('api_search_parts_model') }}" class="button button-blue mx-5">Search product models</a>
+</div>
+
+<div>
+    <a href="{{ url_for('api_get_all_parts_model') }}" class="button button-blue mx-5">View of product models</a>
+</div>
+
+products page
+{% endblock %}

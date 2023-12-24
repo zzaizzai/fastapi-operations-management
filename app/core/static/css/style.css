@@ -89,3 +89,49 @@
     margin-left: 5px;
     margin-bottom: 5px;
 }
+
+
+.message {
+    font-weight: bold;
+
+}
+.message-red{
+    background-color: red;
+    color: white;
+    padding: 5px;
+}
+.message-green{
+    background-color: green;
+    color: white;
+    padding: 5px;
+}
+
+.styled-input {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s; /* 하이라이트 효과를 위한 트랜지션 */
+
+    /* 입력 중일 때 하이라이트 스타일 */
+    &:focus {
+        border-color: #007bff; /* 포커스 시 border 색상 변경 */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 포커스 시 그림자 효과 */
+    }
+}
+
+
+
+.navbar{
+    padding: 5px;
+    margin-bottom: 3px;
+    background-color: blue; 
+    color: white;
+}
+
+.nav-item {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}

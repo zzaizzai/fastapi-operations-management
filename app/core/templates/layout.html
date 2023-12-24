@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>hello</title>
+    <title>fastapi-OM</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/style.css') }}?after">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 </head>
+
 <body>
     <nav>
         <!-- 네비게이션 메뉴 -->
         {% include "nav.html" %}
     </nav>
+
+    {% if msg %}
+    <div id="message" class="message message-red" style="background-color: red;"><strong style="color: white;">message: {{msg}}</strong></div>
+    {% else  %}
+    <div id="message" class="message"><strong style="color: white;"></strong></div>
+    {% endif %}
+    
+
     <div class="content">
         <!-- 페이지 특정 내용이 여기에 들어갑니다. -->
         {% block content %}{% endblock %}
