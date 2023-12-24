@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" modified="2023-12-24T05:07:31.689Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0" etag="QJ3ARR4AekxScrBobn22" version="22.1.11" type="device">
+  <diagram name="페이지-1" id="AQPecVaE0FkOSwwbGZIk">
+    <mxGraphModel dx="1426" dy="759" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-10" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-3" target="O6RX6xmFmg8oIAW6GkgI-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-3" value="Make a Order of Products" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="434" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-13" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;dashed=1;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-5" target="O6RX6xmFmg8oIAW6GkgI-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-5" value="Products_Model" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="240" y="260" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-11" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;dashed=1;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-6" target="O6RX6xmFmg8oIAW6GkgI-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-6" value="Parts_Model" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="240" y="360" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-18" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;dashed=1;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-9" target="O6RX6xmFmg8oIAW6GkgI-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-21" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-9" target="O6RX6xmFmg8oIAW6GkgI-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-9" value="Make a Order of Parts" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="434" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-15" value="Products_History" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="640" y="260" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-16" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;dashed=1;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-3" target="O6RX6xmFmg8oIAW6GkgI-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-17" value="Parts_History" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="640" y="460" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-20" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;dashed=1;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-19" target="O6RX6xmFmg8oIAW6GkgI-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-19" value="Produce Parts" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="434" y="460" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
