@@ -1,5 +1,14 @@
 # Operations Management wirh fastapi
 
+![fastapi](https://img.shields.io/badge/fastapi-0.105-green)
+![Python](https://img.shields.io/badge/Python-3.9.13-blue)
+
+
+
+
+
+
+
 
 ## install
 ```
