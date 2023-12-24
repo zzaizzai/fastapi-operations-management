@@ -1,5 +1,5 @@
 import sqlite3
-
+import json
 
 DATABASE_URL = 'database.db'
 
@@ -26,4 +26,16 @@ def close_database_connection():
 def fetch_all_as_dict(cursor):
     rows = cursor.fetchall()
     columns = [column[0] for column in cursor.description]
-    return [dict(zip(columns, row)) for row in rows]
+    results = []
+    
+    for row in rows:
+        row_dict = dict(zip(columns, row))
+        for key, value in row_dict.items():
+            if isinstance(value, str) and value.startswith('{') and value.endswith('}'):
+                try:
+                    row_dict[key] = json.loads(value)
+                except json.JSONDecodeError:
+                    pass
+        results.append(row_dict)
+
+    return results
