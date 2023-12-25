@@ -2,13 +2,23 @@
 
 {% block content %}
 
-<h2>Detail Page</h2>
+<h2>Product Detail Page</h2>
 
 
 {% if product %}
-    <h4>ID: {{product.id}}</h4>
-    <h4>Name: {{product.name}}</h4>
+    <h3>{{product.name}}</h3>
+    <div>ID: {{product.id}}</div>
+    <div>loc: {{product.location_produce}}</div>
+    <div>customer: {{product.customer}}</div>
+    <div>price: {{product.price_sell}}</div>
 {% endif %}
 
+<h3>Parts List</h3>
+
+{% if parts %}
+    {% for part in parts %}
+        <div>{{part.name}}</div>
+    {% endfor %}
+{% endif %}
 
 {% endblock %}

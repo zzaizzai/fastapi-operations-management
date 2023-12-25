@@ -1,5 +1,7 @@
 import sqlite3
 import json
+from typing import List, Dict, Any
+
 
 DATABASE_URL = 'database.db'
 
@@ -19,11 +21,11 @@ class DatabaseManager:
 db_manager = DatabaseManager()
 
 # 데이터베이스 커넥션 닫기 위한 함수
-def close_database_connection():
+def close_database_connection() -> None:
     db_manager.close()
 
 # 딕셔너리 형태로 결과 가져오는 함수
-def fetch_all_as_dict(cursor):
+def fetch_all_as_dict(cursor) -> List[Dict[str, Any]]:
     rows = cursor.fetchall()
     columns = [column[0] for column in cursor.description]
     results = []
