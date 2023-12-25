@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<h2>Search Page</h2>
+<h2>Product Search Page</h2>
 
 <style>
     /* 검색 결과에 대한 하이라이트 스타일 */
@@ -15,22 +15,68 @@
 
 <!-- Search Bar -->
 <form  method="get">
-    <input class="styled-input" name="q" type="text" value="{{q}}">
+    <input placeholder="Product Name" class="styled-input" name="q" type="text" value="{{q}}">
     <button class="button button-green" type="submit">Search</button>
 </form>
 
+<br>
 
-{% if products %}
-    {% for product in products %}
-        <div>
-            <span>{{product.id}}</span>
-            <span class="anchor-highlight">{{product.name}}</span>
-            <span>{{product.customer}}</span>
-            <span>{{product.location_produce}}</span>
-            <span>{{product.price_sell}}</span>
-        </div>
-    {% endfor %}
-{% endif %}
+<style>
+    /* 스타일링을 위한 CSS 코드 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .anchor-highlight {
+        font-weight: bold;
+        color: blue;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Customer</th>
+            <th>Production location</th>
+            <th>Sale Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if products %}
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td ><a href="{{ url_for('product_detail', product_id=product.id)}}"><span class="anchor-highlight">{{ product.name }}</span></a></td>
+                    <td>{{ product.customer }}</td>
+                    <td>{{ product.location_produce }}</td>
+                    <td>{{ product.price_sell }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>

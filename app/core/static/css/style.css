@@ -123,15 +123,26 @@
 
 
 
-.navbar{
+.navbar {
     padding: 5px;
     margin-bottom: 3px;
     background-color: blue; 
     color: white;
+    border-radius: 5px;
+    transition: box-shadow 0.3s, transform 0.3s;
 }
 
 .nav-item {
     color: white;
     font-weight: bold;
     text-decoration: none;
+}
+
+.nav-item:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-item:hover .navbar {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
