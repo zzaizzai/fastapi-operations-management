@@ -55,10 +55,5 @@ async def search_products_model(request: Request, q: str = None):
 
 @router.get("/api/get_all")
 async def api_get_all_products_model():
-    cursor = db_manager.get_cursor()
-    cursor.execute('select * from products_model')
     
-    items = fetch_all_as_dict(cursor)
-    cursor.close()
-    
-    return items
+    return ProductControl().get_all()
