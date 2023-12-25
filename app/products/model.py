@@ -12,6 +12,15 @@ class ProductControl():
         self.name = name
         self.q = q
     
+    @classmethod
+    def get_all(cls):
+        cursor = db_manager.get_cursor()
+        cursor.execute('select * from products_model')
+        items = fetch_all_as_dict(cursor)
+        cursor.close()
+        
+        return items
+    
     def get_a_product(self) -> Dict[str, Any]:
         return self.product_data[0]
     
