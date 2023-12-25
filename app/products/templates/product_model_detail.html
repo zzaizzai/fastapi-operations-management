@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>Detail Page</h2>
+
+
+{% if product %}
+    <h4>ID: {{product.id}}</h4>
+    <h4>Name: {{product.name}}</h4>
+{% endif %}
+
+
+{% endblock %}
