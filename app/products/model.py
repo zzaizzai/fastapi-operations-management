@@ -17,6 +17,20 @@ class Product():
         self.customer = customer
         self.price_sell = price_sell
 
+
+class ProductHistory():
+    
+    def __init__(self, product_id: int = None):
+        self.product_id = product_id
+        
+    @classmethod
+    def get_all(cls) -> List[Dict[str, Any]]:
+        cursor = db_manager.get_cursor()
+        cursor.execute('select * from products_history')
+        items = fetch_all_as_dict(cursor)
+        cursor.close()
+        return items
+    
 class ProductControl():
 
     product_data: List[Dict[str, Any]] = []

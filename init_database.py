@@ -34,6 +34,7 @@ def initialize_database():
         CREATE TABLE products_model (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
+            quantity INTEGER,
             location_produce TEXT DEFAULT "Factory1" ,
             location_sell TEXT DEFAULT "Nagoya" ,
             customer TEXT DEFAULT "Toyota",
@@ -45,7 +46,8 @@ def initialize_database():
     cursor.execute('''
         CREATE TABLE products_history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
+            product_id INTEGER NOT NULL,
+            quantity INTEGER,
             lot INTEGER,
             datetime_created DATETIME DEFAULT CURRENT_TIMESTAMP,
             datetime_produced DATETIME, 
@@ -117,6 +119,14 @@ def add_product(name):
     db.commit()    
     cursor.close()
 
+
+def add_product_history(product_id):
+    cursor = db.cursor()
+    random_quantity = random.randint(20, 50)
+    cursor.execute('INSERT INTO products_history (product_id, quantity) VALUES (?, ?)', (product_id, random_quantity))
+    db.commit()    
+    cursor.close()
+
 def create_demodata() -> None:
     initialize_database()
     num_data = 200
@@ -130,6 +140,11 @@ def create_demodata() -> None:
         add_part(get_random_string_part(), i)
         add_part(get_random_string_part(), i)
         add_part(get_random_string_part(), i)
+    
+    #create operations
+    for _ in range(1,100):
+        random_product_id = random.randint(1, num_data)
+        add_product_history(random_product_id)
     
     print("Database initialized and tables created.")
     
