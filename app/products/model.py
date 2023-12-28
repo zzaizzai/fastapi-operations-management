@@ -1,25 +1,78 @@
 from db import db_manager, fetch_all_as_dict
+from dataclasses import dataclass, asdict
+from typing import Dict, Any, List, get_type_hints, Type
 
-from typing import Dict, Any, List
 
+class Product():
+    def __init__(self, 
+                product_id: int = None, 
+                name: str = None, 
+                location_produce: str = None,
+                customer: str = None,
+                price_sell: float = None):
+        
+        self.product_id = product_id
+        self.name = name
+        self.location_produce = location_produce
+        self.customer = customer
+        self.price_sell = price_sell
 
 class ProductControl():
 
     product_data: List[Dict[str, Any]] = []
+    parts: List[Dict[str, Any]] = []
+    
+    exist_parts: bool = False
     
     def __init__(self, product_id: int = None, name: str = None, q: str = None):
         self.product_id = product_id
         self.name = name
         self.q = q
     
+    def add_price_produce(self) -> None:
+        self.product_data[0]['price_produce'] = self.calculate_price_produce()
+        
+    def calculate_price_produce(self) -> float:
+        price_total = 0
+        
+        if self.parts == []:
+            return price_total
+        
+        for i, item in enumerate(self.parts):
+            price_total += item['price_produce'] or 0
+        
+        return price_total
+    
     @classmethod
-    def get_all(cls):
+    def get_all(cls) -> List[Dict[str, Any]]:
         cursor = db_manager.get_cursor()
         cursor.execute('select * from products_model')
         items = fetch_all_as_dict(cursor)
         cursor.close()
-        
         return items
+    
+    def get_child_parts(self) -> List[Dict[str, Any]]:
+        return self.parts
+    
+    def exist_parts(self) -> bool:
+        return len(self.parts) > 1
+    
+    def find_child_parts(self) -> None:
+        cursor = db_manager.get_cursor()
+    
+        cursor.execute(f"""
+            SELECT 
+                *
+            FROM 
+                parts_model
+            WHERE 
+                parts_model.parent_product_id = '{self.product_id}'
+            """)
+            
+        
+        parts = fetch_all_as_dict(cursor)
+        cursor.close()
+        self.parts = parts
     
     def get_a_product(self) -> Dict[str, Any]:
         return self.product_data[0]
@@ -32,9 +85,7 @@ class ProductControl():
         if self.product_id is None or self.product_id == "":
             return
         
-        
         cursor = db_manager.get_cursor()
-    
         cursor.execute(f"""
             SELECT 
                 *
@@ -44,9 +95,8 @@ class ProductControl():
                 products_model.id = '{self.product_id}'
             """)
             
-        
         products = fetch_all_as_dict(cursor)
-
+        cursor.close()
         self.product_data = products
         
     def exist_product(self) -> bool:
@@ -68,9 +118,7 @@ class ProductControl():
                 products_model.name LIKE '%{self.q}%'
             """)
             
-        
         products = fetch_all_as_dict(cursor)
         cursor.close()
-        
         self.product_data = products
     
