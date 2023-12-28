@@ -29,6 +29,20 @@ class ProductControl():
         self.name = name
         self.q = q
     
+    def add_price_produce(self) -> None:
+        self.product_data[0]['price_produce'] = self.calculate_price_produce()
+        
+    def calculate_price_produce(self) -> float:
+        price_total = 0
+        
+        if self.parts == []:
+            return price_total
+        
+        for i, item in enumerate(self.parts):
+            price_total += item['price_produce'] or 0
+        
+        return price_total
+    
     @classmethod
     def get_all(cls) -> List[Dict[str, Any]]:
         cursor = db_manager.get_cursor()

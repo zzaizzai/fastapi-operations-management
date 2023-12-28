@@ -1,24 +1,77 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<style>
+    /* CSS 스타일링을 여기에 추가하세요 */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+    }
 
-<h2>Product Detail Page</h2>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+    }
 
-{% if product %}
-    <h3>{{product.name}}</h3>
-    <div>ID: {{product.id}}</div>
-    <div>loc: {{product.location_produce}}</div>
-    <div>customer: {{product.customer}}</div>
-    <div>price: {{product.price_sell}}</div>
-{% endif %}
+    h3 {
+        color: #555;
+    }
 
-<h3>Parts List</h3>
+    .product-details {
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
 
-{% if parts %}
-    {% for part in parts %}
-        <div>{{part.name}}</div>
-    {% endfor %}
-{% endif %}
+    .product-details div {
+        margin: 10px 0;
+    }
 
+    .parts-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .parts-list li {
+        margin: 5px 0;
+    }
+
+</style>
+
+<div class="container">
+    <h2>Product Detail Page</h2>
+
+    {% if product %}
+    <div class="product-details">
+        <h3>{{product.name}}</h3>
+        <div>ID: {{product.id}}</div>
+        <div>Location: {{product.location_produce}}</div>
+        <div>Customer: {{product.customer}}</div>
+        <div>Sale Price: {{product.price_sell}} Yen</div>
+        <div>Production Price: {{product.price_produce}} Yen</div>
+    </div>
+    {% endif %}
+
+    <h3>Parts List</h3>
+
+    {% if parts %}
+    <ul class="parts-list">
+        {% for part in parts %}
+        <li>・{{ part.name }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
 {% endblock %}

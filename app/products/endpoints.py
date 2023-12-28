@@ -22,8 +22,11 @@ async def product_detail(request: Request, product_id: int):
     product_control = ProductControl(product_id=product_id)
     product_control.find_a_product_with_id()
     product_control.find_child_parts()
+    product_control.add_price_produce()
     
     parts = product_control.get_child_parts()
+    
+    
     
     if product_control.exist_product() is False:
         return RedirectResponse("/products/index")
