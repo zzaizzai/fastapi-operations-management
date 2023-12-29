@@ -20,13 +20,53 @@ class Product():
 
 class ProductHistory():
     
-    def __init__(self, product_id: int = None):
+    history_data: List[Dict[str, Any]] = []
+    
+    def __init__(self, product_id: int = None, q: str = None, sort: str = 'asc', order: str = None):
         self.product_id = product_id
+        self.q = q
+        self.sort = sort
+        self.order = order
         
+    def search_products_with_q(self) -> None:
+        
+        # if self.q is None or len(self.q) == 0:
+        #     return
+        
+        cursor = db_manager.get_cursor()
+        query = """
+            SELECT 
+                ph.*, 
+                pm.name AS product_name 
+            FROM products_history ph 
+            LEFT JOIN products_model pm ON ph.product_id = pm.id
+            """
+    
+        if self.q:
+            query += f"WHERE {self.q}"
+        
+        if self.order:
+            query += f"ORDER BY {self.order} {self.sort} "
+    
+        cursor.execute(query)
+        products = fetch_all_as_dict(cursor)
+        cursor.close()
+        
+        self.history_data = products
+    
+    def get_history_data(self) -> List[Dict[str, Any]]:
+        return self.history_data
+    
     @classmethod
     def get_all(cls) -> List[Dict[str, Any]]:
         cursor = db_manager.get_cursor()
-        cursor.execute('select * from products_history')
+        cursor.execute("""
+                    select 
+                        ph.*, 
+                        pm.name as product_name 
+                    from products_history ph 
+                    left join products_model pm on ph.product_id = pm.id
+                    """)
         items = fetch_all_as_dict(cursor)
         cursor.close()
         return items

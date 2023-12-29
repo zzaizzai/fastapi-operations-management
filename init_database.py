@@ -1,5 +1,7 @@
 import sqlite3
 import random
+from datetime import datetime, timedelta
+
 
 # SQLite 데이터베이스 연결
 db = sqlite3.connect('database.db')
@@ -34,11 +36,11 @@ def initialize_database():
         CREATE TABLE products_model (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            quantity INTEGER,
             location_produce TEXT DEFAULT "Factory1" ,
             location_sell TEXT DEFAULT "Nagoya" ,
             customer TEXT DEFAULT "Toyota",
-            price_sell INTEGER
+            price_sell INTEGER,
+            lead_time INTEGER --days
         );
     ''')
 
@@ -51,9 +53,10 @@ def initialize_database():
             lot INTEGER,
             datetime_created DATETIME DEFAULT CURRENT_TIMESTAMP,
             datetime_produced DATETIME, 
-            datetime_due DATETIME,
+            date_due DATE,
             datetime_sold DATETIME, 
-            location_current TEXT DEFAULT "Factory1" 
+            location_current TEXT DEFAULT "Factory1" ,
+            process TEXT DEFAULT "waiting start" 
             
         );
     ''')
@@ -106,7 +109,11 @@ def get_random_string_product() -> str:
 def add_part(name, parent_product_id):
     cursor = db.cursor()
     random_price = random.randint(50, 500)
-    cursor.execute('INSERT INTO parts_model (name, parent_product_id, price_produce) VALUES (?, ?, ?)', 
+    cursor.execute("""
+                INSERT INTO parts_model 
+                (name, parent_product_id, price_produce) 
+                VALUES (?, ?, ?)
+                """, 
                 (name, parent_product_id, random_price))
     db.commit()
     cursor.close()
@@ -114,16 +121,28 @@ def add_part(name, parent_product_id):
     
 def add_product(name):
     cursor = db.cursor()
+    random_lead_time = random.randint(2, 12)
     random_price = random.randint(5000, 10000)
-    cursor.execute('INSERT INTO products_model (name, price_sell) VALUES (?, ?)', (name,random_price))
+    cursor.execute("""
+                INSERT INTO products_model 
+                (name, price_sell, lead_time) 
+                VALUES (?, ?, ?)
+                """, 
+                (name,random_price, random_lead_time))
     db.commit()    
     cursor.close()
 
 
 def add_product_history(product_id):
     cursor = db.cursor()
+    today = datetime.today()
+    random_days = random.randint(7, 14)
+    random_date = today + timedelta(days=random_days)
+    sql_formatted_date = random_date.strftime('%Y-%m-%d')
+
     random_quantity = random.randint(20, 50)
-    cursor.execute('INSERT INTO products_history (product_id, quantity) VALUES (?, ?)', (product_id, random_quantity))
+    cursor.execute('INSERT INTO products_history (product_id, quantity, date_due) VALUES (?, ?, ?)', 
+                (product_id, random_quantity, sql_formatted_date))
     db.commit()    
     cursor.close()
 
