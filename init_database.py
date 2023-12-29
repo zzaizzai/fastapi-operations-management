@@ -118,6 +118,21 @@ def add_part(name, parent_product_id):
     db.commit()
     cursor.close()
     
+def add_parts(num_data_of_product: int, num_child_parts: int):
+    cursor = db.cursor()
+    
+    for parent_product_id in range(1, num_data_of_product):
+        for _ in range(num_child_parts):
+            name = get_random_string_part()
+            random_price = random.randint(50, 500)
+            cursor.execute("""
+                        INSERT INTO parts_model 
+                        (name, parent_product_id, price_produce) 
+                        VALUES (?, ?, ?)
+                        """, 
+                        (name, parent_product_id, random_price))
+    db.commit()
+    cursor.close()
     
 def add_product(name):
     cursor = db.cursor()
@@ -132,7 +147,22 @@ def add_product(name):
     db.commit()    
     cursor.close()
 
-
+def add_products(num_data: int):
+    cursor = db.cursor()
+    
+    for _ in range(1, num_data + 1):
+        name = get_random_string_product()
+        random_lead_time = random.randint(2, 12)
+        random_price = random.randint(5000, 10000)
+        cursor.execute("""
+                INSERT INTO products_model 
+                (name, price_sell, lead_time) 
+                VALUES (?, ?, ?)
+                """, 
+                (name, random_price, random_lead_time))
+    db.commit()    
+    cursor.close()
+    
 def add_product_history(product_id):
     cursor = db.cursor()
     today = datetime.today()
@@ -146,24 +176,29 @@ def add_product_history(product_id):
     db.commit()    
     cursor.close()
 
+def add_product_histories(num_data: int, num_data_of_product: int):
+    cursor = db.cursor()
+    today = datetime.today()
+    random_days = random.randint(7, 14)
+    random_date = today + timedelta(days=random_days)
+    sql_formatted_date = random_date.strftime('%Y-%m-%d')
+
+    for _ in range(1, num_data + 1):
+        random_product_id = random.randint(1, num_data_of_product - 1 )
+        random_quantity = random.randint(20, 50)
+        cursor.execute('INSERT INTO products_history (product_id, quantity, date_due) VALUES (?, ?, ?)', 
+                    (random_product_id, random_quantity, sql_formatted_date))
+        
+    db.commit()    
+    cursor.close()
+
 def create_demodata() -> None:
     initialize_database()
-    num_data = 200
-    
-    for _ in range(1, num_data):
-        add_product(get_random_string_product())
+    num_data_of_product = 200
 
-    for i in range(1, num_data):
-        add_part(get_random_string_part(), i)
-        add_part(get_random_string_part(), i)
-        add_part(get_random_string_part(), i)
-        add_part(get_random_string_part(), i)
-        add_part(get_random_string_part(), i)
-    
-    #create operations
-    for _ in range(1,300):
-        random_product_id = random.randint(1, num_data - 1 )
-        add_product_history(random_product_id)
+    add_products(num_data_of_product)
+    add_parts(num_data_of_product, 6)
+    add_product_histories(300, num_data_of_product)
     
     print("Database initialized and tables created.")
     
