@@ -1,8 +1,8 @@
 from db import db_manager, fetch_all_as_dict
 from dataclasses import dataclass, asdict
 from typing import Dict, Any, List, get_type_hints, Type, Optional
-from datetime import datetime, timedelta
-
+from datetime import datetime, timedelta, date
+from operator import itemgetter
 class Product():
     def __init__(self, 
                 product_id: int = None, 
@@ -41,6 +41,32 @@ class ProductHistory():
             self._get_product_history_detail()
         return self.history_detail_data
     
+    @staticmethod
+    def calculate_business_days(start_date: datetime, days_to_subtract: int) -> datetime:
+        current_date = start_date
+        while days_to_subtract > 0:
+            current_date -= timedelta(days=1)
+            if current_date.weekday() < 5:  # Monday to Friday are considered business days (0 to 4)
+                days_to_subtract -= 1
+        return current_date
+    
+    def get_time_line(self)-> List[Dict[str, Any]]:
+        if len(self.history_detail_data) == 0:
+            return []
+        
+        time_line_list = []
+        today = date.today().strftime('%Y-%m-%d')
+        
+        time_line_list.append({"title": "Today","date": today})
+        time_line_list.append({"title": "Created","date":self.history_detail_data['datetime_created']})
+        # time_line_list.append({"title": 'datetime_sold',"date":self.history_detail_data['datetime_sold']})
+        time_line_list.append({"title": 'Due',"date":self.history_detail_data['date_due']})
+        time_line_list.append({"title": 'Start Plan Calculated',"date":self.get_date_start_plan_calculated()})
+
+        # 날짜를 기준으로 리스트 정렬
+        sorted_time_line = sorted(time_line_list,  key=itemgetter('date'))
+        return sorted_time_line
+    
     def get_date_start_plan_calculated(self) -> str:
         if len(self.history_detail_data) == 0:
             return 'none'
@@ -48,8 +74,12 @@ class ProductHistory():
         data = self.history_detail_data
         date_due = datetime.strptime(data['date_due'], '%Y-%m-%d')
 
-        # Calculate the new date by subtracting lead_time days
-        new_date = date_due - timedelta(days=data['lead_time'])
+        # Calculate the new date by subtracting business days
+        new_date = self.calculate_business_days(date_due, data['lead_time'])
+
+        # Format the new date as a string in the desired format
+        new_date_str = new_date.strftime('%Y-%m-%d')
+
 
         # Format the new date as a string in the desired format
         new_date_str = new_date.strftime('%Y-%m-%d')
