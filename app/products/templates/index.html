@@ -3,21 +3,20 @@
 {% block content %}
 
 
-
 <div>
-    <a href="{{url_for('make_product_orders')}}" class="button button-red mx-5">Make Product Orders</a>
+    <a href="{{url_for('make_product_orders')}}" class="button button-red button-disable mx-5">Make Product Orders</a>
 </div>
 
 <div>
-    <a href="{{url_for('view_operations')}}" class="button button-red mx-5">View Operations</a>
+    <a href="{{url_for('view_operations')}}" class="button button-red mx-5">View Product Operations</a>
 </div>
 
 <div>
-    <a href="{{ url_for('search_products_model') }}" class="button button-red mx-5">Search Product</a>
+    <a href="{{ url_for('search_products_model') }}" class="button button-red mx-5">Search Product Model</a>
 </div>
 
 <div>
-    <a href="{{ url_for('api_get_all_products_model') }}" class="button button-red mx-5">View of product models</a>
+    <a href="{{ url_for('api_get_all_products_model') }}" class="button button-red button-disable  mx-5">View of product models</a>
 </div>
 
 products page

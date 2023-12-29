@@ -130,7 +130,7 @@ function toggleSort() {
             {% for history in histories %}
                 <tr>
                     <td>{{ history.id }}</td>
-                    <td class="anchor-highlight">{{history.product_name }}</span></td>
+                    <td ><a class="anchor-highlight" href="{{url_for('product_history_detail', history_id=history.id )}}">{{history.product_name }}</a></td>
                     <td>{{ history.quantity }}</td>
                     <td>{{ history.datetime_created }}</td>
                     <td>{{ history.date_due }}</td>

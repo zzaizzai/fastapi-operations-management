@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
-
-from db import db_manager, fetch_all_as_dict
+import time
 from .model import ProductControl, ProductHistory
 router = APIRouter(prefix="/products")
 
@@ -18,6 +17,15 @@ async def products_index_page(request: Request):
 async def make_product_orders(request: Request):
     return templates.TemplateResponse("make_product_orders.html", {"request": request})
 
+@router.get("/api/get_date_plan_calculated")
+async def api_get_date_plan_calculated(history_id: int = None):
+    time.sleep(2)
+    ph = ProductHistory(history_id=history_id)
+    ph.get_product_history_detail()
+    date_plan_calculated = ph.get_date_start_plan_calculated()
+    return date_plan_calculated
+
+
 @router.get("/history")
 async def view_operations(request: Request, sort: str = 'asc', order: str = None, q: str = ""):
     context = {}
@@ -30,7 +38,20 @@ async def view_operations(request: Request, sort: str = 'asc', order: str = None
     ph.search_products_with_q()
     histories = ph.get_history_data()
     context['histories'] = histories
-    return templates.TemplateResponse("view_history.html", context)
+    return templates.TemplateResponse("view_product_history.html", context)
+
+@router.get("/history_detail/{history_id}")
+async def product_history_detail(request: Request, history_id: int):
+    context = {}
+    context['request'] = request
+    ph = ProductHistory(history_id=history_id)
+    history = ph.get_product_history_detail()
+    context['history'] = history
+    
+    if len(history) == 0:
+        context['msg'] = 'no data'
+        
+    return templates.TemplateResponse("history_detail.html", context)
 
 @router.get("/api/operations")
 async def api_operations():

@@ -12,6 +12,11 @@ templates = Jinja2Templates(directory="app/core/templates")
 async def mainpage(request: Request):
     return templates.TemplateResponse("main.html", {"request": request})
 
+@router.get("/spinner")
+async def mainpage(request: Request):
+    return templates.TemplateResponse("spinner-show.html", {"request": request})
+
+
 @router.get("/api/create/demodata")
 async def api_create_demodata():
 
