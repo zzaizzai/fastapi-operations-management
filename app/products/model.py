@@ -22,7 +22,12 @@ class ProductHistory():
     
     history_data: List[Dict[str, Any]] = []
     
-    def __init__(self, product_id: int = None, q: str = None, sort: str = 'asc', order: str = None):
+    def __init__(self, 
+                product_id: int = None, 
+                q: str = None, 
+                sort: str = 'asc', 
+                order: str = None
+                ):
         self.product_id = product_id
         self.q = q
         self.sort = sort
@@ -30,7 +35,9 @@ class ProductHistory():
         
     def search_products_with_q(self) -> None:
         
+        # # get all
         # if self.q is None or len(self.q) == 0:
+        #     self.history_data = self.get_all()
         #     return
         
         cursor = db_manager.get_cursor()
@@ -43,7 +50,7 @@ class ProductHistory():
             """
     
         if self.q:
-            query += f"WHERE {self.q}"
+            query += f"WHERE pm.name LIKE '%{self.q}%'"
         
         if self.order:
             query += f"ORDER BY {self.order} {self.sort} "

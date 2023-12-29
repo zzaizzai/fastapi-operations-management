@@ -161,8 +161,8 @@ def create_demodata() -> None:
         add_part(get_random_string_part(), i)
     
     #create operations
-    for _ in range(1,100):
-        random_product_id = random.randint(1, num_data)
+    for _ in range(1,300):
+        random_product_id = random.randint(1, num_data - 1 )
         add_product_history(random_product_id)
     
     print("Database initialized and tables created.")

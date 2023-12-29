@@ -19,13 +19,14 @@ async def make_product_orders(request: Request):
     return templates.TemplateResponse("make_product_orders.html", {"request": request})
 
 @router.get("/history")
-async def view_operations(request: Request, sort: str = 'asc', order: str = None):
+async def view_operations(request: Request, sort: str = 'asc', order: str = None, q: str = ""):
     context = {}
     context['request'] = request
     context['order'] = order
     context['sort'] = sort
+    context['q'] = q
     
-    ph = ProductHistory(sort=sort, order=order)
+    ph = ProductHistory(sort=sort, order=order, q=q)
     ph.search_products_with_q()
     histories = ph.get_history_data()
     context['histories'] = histories

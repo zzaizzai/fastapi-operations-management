@@ -152,3 +152,16 @@
 .nav-item:hover .navbar {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+
+
+/* 검색 결과에 대한 하이라이트 스타일 */
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+
+.anchor-highlight {
+    font-weight: bold;
+    color: blue;
+}

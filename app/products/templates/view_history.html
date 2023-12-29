@@ -54,11 +54,19 @@
 
 </style>
 
-<h3>Sort</h3>
-<form class="mx-5" action="{{ url_for('view_operations') }}">
-    <button name="order" class="button button-small button-gray" value="id">ID</button>
-    <button name="order" class="button button-small button-gray" value="quantity">Quantity</button>
-    <button name="order" class="button button-small button-gray" value="date_due">Due</button>
+
+<form class="mx-5" action="{{ url_for('view_operations') }}" method="GET">
+    <div class="mx-3">
+        <input placeholder="Product Name" class="styled-input" name="q" type="text" value="{{q}}">
+        <button class="button button-green" type="submit">Search</button>
+    </div>
+    <br>
+
+    <div><strong>Sort:</strong>
+        <button name="order" class="button button-sort button-small button-gray" value="id">ID</button>
+        <button name="order" class="button button-sort button-small button-gray" value="quantity">Quantity</button>
+        <button name="order" class="button button-sort button-small button-gray" value="date_due">Due</button>
+    </div>
     <input type="hidden" name="sort" id="sortInput" value="{{ sort }}">
 </form>
 
@@ -67,7 +75,7 @@
 const currentOrder = '{{ order }}' === 'None' ? null : '{{ order }}';
 const currentSort = '{{ sort }}' === 'None' ? null : '{{ sort }}';
 
-const buttons = document.querySelectorAll('.button');
+const buttons = document.querySelectorAll('.button-sort');
 
 buttons.forEach(function (button) {
     var orderValue = button.getAttribute('value');
@@ -122,7 +130,7 @@ function toggleSort() {
             {% for history in histories %}
                 <tr>
                     <td>{{ history.id }}</td>
-                    <td>{{ history.product_name }}</td>
+                    <td class="anchor-highlight">{{history.product_name }}</span></td>
                     <td>{{ history.quantity }}</td>
                     <td>{{ history.datetime_created }}</td>
                     <td>{{ history.date_due }}</td>
@@ -134,5 +142,23 @@ function toggleSort() {
     </tbody>
 </table>
 
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+
+    
+    $(document).ready(function () {
+        var searchTerm = "{{ q }}";
+        if (searchTerm) {
+            $(".anchor-highlight").each(function () {
+                var titleText = $(this).text();
+                var highlightedText = titleText.replace(new RegExp(searchTerm, "gi"), function (match) {
+                    return '<span class="highlight">' + match + '</span>';
+                });
+                $(this).html(highlightedText);
+            });
+        }
+    });
+</script>
 
 {% endblock %}
