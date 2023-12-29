@@ -30,7 +30,7 @@ async def view_operations(request: Request, sort: str = 'asc', order: str = None
     ph.search_products_with_q()
     histories = ph.get_history_data()
     context['histories'] = histories
-    return templates.TemplateResponse("view_history.html", context)
+    return templates.TemplateResponse("view_product_history.html", context)
 
 @router.get("/api/operations")
 async def api_operations():

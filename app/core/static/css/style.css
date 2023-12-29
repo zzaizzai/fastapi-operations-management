@@ -165,3 +165,7 @@
     font-weight: bold;
     color: blue;
 }
+
+.button-disable{
+    filter: brightness(0.7);
+}

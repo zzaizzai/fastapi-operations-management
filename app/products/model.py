@@ -1,6 +1,6 @@
 from db import db_manager, fetch_all_as_dict
 from dataclasses import dataclass, asdict
-from typing import Dict, Any, List, get_type_hints, Type
+from typing import Dict, Any, List, get_type_hints, Type, Optional
 
 
 class Product():
@@ -23,10 +23,10 @@ class ProductHistory():
     history_data: List[Dict[str, Any]] = []
     
     def __init__(self, 
-                product_id: int = None, 
-                q: str = None, 
-                sort: str = 'asc', 
-                order: str = None
+                product_id: Optional[str] = None, 
+                q: Optional[str] = None, 
+                sort: Optional[str] = 'asc', 
+                order: Optional[str] = None
                 ):
         self.product_id = product_id
         self.q = q
@@ -85,7 +85,10 @@ class ProductControl():
     
     exist_parts: bool = False
     
-    def __init__(self, product_id: int = None, name: str = None, q: str = None):
+    def __init__(self, 
+                product_id: Optional[int] = None, 
+                name: Optional[str] = None, 
+                q: Optional[str] = None):
         self.product_id = product_id
         self.name = name
         self.q = q
