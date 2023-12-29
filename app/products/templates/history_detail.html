@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+    
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        color: #555;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-details {
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+
+</style>
+
+{% if history %}
+<div class="container">
+    <h2>History Detail</h2>
+    <div class="product-details">
+        <h3>ID: {{history.id}}</h3>
+        <div>Name:{{history.product_name}}</div>
+        <div>Quantity: {{history.quantity}}</div>
+        <div>Created: {{history.datetime_created}}</div>
+        <div>Due: {{history.date_due}}</div>
+        <div>Sold: {{history.datetime_sold}}</div>
+        <div>Location: {{history.location_current}}</div>
+        <div>Process: {{history.process}}</div>
+        <div>Lead_time: {{history.lead_time}}</div>
+        <div>Lot: {{history.lot}}</div>
+    </div>
+    <button class="mx-5 button button-red" id="calculateButton" onclick="handleCalculateButtonClick()">Calculate</button>
+    <div id="result"></div> <!-- This is where the calculated data will be displayed -->
+</div>
+
+
+{% include 'spinner.html' %}
+
+<script>
+    // Define a separate function to handle the button click
+    function handleCalculateButtonClick() {
+        // Disable the button while loading
+        $("#calculateButton").prop("disabled", true);
+
+        // Add the blur class to the container
+        $("#overlay").show();
+
+        // Show the spinner
+        $(".spinner-box").show();
+
+        // Make an AJAX request to the API
+        $.ajax({
+            url: "/products/api/get_date_plan_calculated?history_id={{history.id}}",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                // Update the result div with the received data
+
+                // Remove the blur class
+                $("#overlay").hide();
+
+                // Hide the spinner
+                $(".spinner-box").hide();
+
+                // Enable the button
+                $("#calculateButton").prop("disabled", false);
+
+                $("#result").html("Start Plan: " + data);
+            },
+            error: function() {
+                alert("Error fetching data from the API.");
+
+                // Remove the blur class
+                $("#overlay").hide();
+
+                // Hide the spinner
+                $(".spinner").hide();
+
+                // Enable the button
+                $("#calculateButton").prop("disabled", false);
+            }
+        });
+    }
+</script>
+
+{% endif %}
+{% endblock %}

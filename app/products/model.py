@@ -1,7 +1,7 @@
 from db import db_manager, fetch_all_as_dict
 from dataclasses import dataclass, asdict
 from typing import Dict, Any, List, get_type_hints, Type, Optional
-
+from datetime import datetime, timedelta
 
 class Product():
     def __init__(self, 
@@ -21,17 +21,61 @@ class Product():
 class ProductHistory():
     
     history_data: List[Dict[str, Any]] = []
+    history_detail_data: Dict[str, Any] = {}
     
     def __init__(self, 
-                product_id: Optional[str] = None, 
+                product_id: Optional[int] = None, 
                 q: Optional[str] = None, 
-                sort: Optional[str] = 'asc', 
-                order: Optional[str] = None
+                sort: str = 'asc', 
+                order: Optional[str] = None,
+                history_id: Optional[int]  = None
                 ):
         self.product_id = product_id
         self.q = q
         self.sort = sort
         self.order = order
+        self.history_id = history_id
+    
+    def get_product_history_detail(self):
+        if len(self.history_detail_data) == 0:
+            self._get_product_history_detail()
+        return self.history_detail_data
+    
+    def get_date_start_plan_calculated(self) -> str:
+        if len(self.history_detail_data) == 0:
+            return 'none'
+        
+        data = self.history_detail_data
+        date_due = datetime.strptime(data['date_due'], '%Y-%m-%d')
+
+        # Calculate the new date by subtracting lead_time days
+        new_date = date_due - timedelta(days=data['lead_time'])
+
+        # Format the new date as a string in the desired format
+        new_date_str = new_date.strftime('%Y-%m-%d')
+        
+        return new_date_str
+    
+    
+    def _get_product_history_detail(self) -> None:
+        self.history_detail_data
+
+        cursor = db_manager.get_cursor()
+        query = f"""
+            SELECT 
+                ph.*, 
+                pm.name AS product_name ,
+                pm.lead_time AS lead_time 
+            FROM products_history ph 
+            LEFT JOIN products_model pm ON ph.product_id = pm.id
+            WHERE ph.id = {self.history_id}
+            """
+            
+        cursor.execute(query)
+        history_detail = fetch_all_as_dict(cursor)
+        cursor.close()
+        if len(history_detail) > 0:
+            self.history_detail_data= history_detail[0]
         
     def search_products_with_q(self) -> None:
         
@@ -62,6 +106,8 @@ class ProductHistory():
         self.history_data = products
     
     def get_history_data(self) -> List[Dict[str, Any]]:
+        if len(self.history_data) == 0:
+            self.search_products_with_q()
         return self.history_data
     
     @classmethod
