@@ -1,0 +1,164 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    /* 스타일링을 위한 CSS 코드 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+        text-overflow: ellipsis; /* 텍스트가 넘칠 때 생략 문자로 표시 */
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .anchor-highlight {
+        font-weight: bold;
+        color: blue;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .button span {
+        font-weight: bold; /* 굵은 글씨체 */
+        vertical-align: middle; /* 수직 정렬 */
+    }
+
+</style>
+
+
+<h2>Products History</h2>
+
+
+<style>
+
+.button.active {
+    background-color: #107e02; /* 원하는 활성화 색상 설정 */
+    color: #fff; /* 활성화된 버튼의 텍스트 색상 설정 */
+}
+
+
+</style>
+
+
+<form class="mx-5" action="{{ url_for('view_operations') }}" method="GET">
+    <div class="mx-3">
+        <input placeholder="Product Name" class="styled-input" name="q" type="text" value="{{q}}">
+        <button class="button button-green" type="submit">Search</button>
+    </div>
+    <br>
+
+    <div><strong>Sort:</strong>
+        <button name="order" class="button button-sort button-small button-gray" value="id">ID</button>
+        <button name="order" class="button button-sort button-small button-gray" value="quantity">Quantity</button>
+        <button name="order" class="button button-sort button-small button-gray" value="date_due">Due</button>
+    </div>
+    <input type="hidden" name="sort" id="sortInput" value="{{ sort }}">
+</form>
+
+<script>
+
+const currentOrder = '{{ order }}' === 'None' ? null : '{{ order }}';
+const currentSort = '{{ sort }}' === 'None' ? null : '{{ sort }}';
+
+const buttons = document.querySelectorAll('.button-sort');
+
+buttons.forEach(function (button) {
+    var orderValue = button.getAttribute('value');
+    if (orderValue === currentOrder) {
+        button.classList.add('active'); 
+
+        // add arrow
+        if (currentSort === 'asc') {
+            var arrow = document.createElement('span');
+            arrow.textContent = ' ↑';
+            button.appendChild(arrow);
+        } else if (currentSort === 'desc') {
+            var arrow = document.createElement('span');
+            arrow.textContent = ' ↓';
+            button.appendChild(arrow);
+        }
+
+        button.addEventListener('click', function() {
+            toggleSort();
+        });
+
+    } else {
+        button.classList.remove('active'); 
+    }
+});
+
+// Sort Toggle
+function toggleSort() {
+    const sortInput = document.getElementById('sortInput');
+    if (currentSort === 'asc') {
+        sortInput.value = 'desc'; // 현재 'asc'이면 'desc'로 변경
+    } else if (currentSort === 'desc') {
+        sortInput.value = 'asc'; // 현재 'desc'이면 'asc'로 변경
+    }
+    document.querySelector('form').submit();
+}
+</script>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>operation created</th>
+            <th>Due Date</th>
+            <th>Current Location</th>
+            <th>Process</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if histories %}
+            {% for history in histories %}
+                <tr>
+                    <td>{{ history.id }}</td>
+                    <td class="anchor-highlight">{{history.product_name }}</span></td>
+                    <td>{{ history.quantity }}</td>
+                    <td>{{ history.datetime_created }}</td>
+                    <td>{{ history.date_due }}</td>
+                    <td>{{ history.location_current }}</td>
+                    <td>{{ history.process }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+
+    
+    $(document).ready(function () {
+        var searchTerm = "{{ q }}";
+        if (searchTerm) {
+            $(".anchor-highlight").each(function () {
+                var titleText = $(this).text();
+                var highlightedText = titleText.replace(new RegExp(searchTerm, "gi"), function (match) {
+                    return '<span class="highlight">' + match + '</span>';
+                });
+                $(this).html(highlightedText);
+            });
+        }
+    });
+</script>
+
+{% endblock %}

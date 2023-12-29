@@ -14,6 +14,11 @@
     transition: background-color 0.3s ease;
 }
 
+.button-small {
+    font-size: 16px;
+    padding: 5px 10px;
+}
+
 /* 호버 효과 - 마우스 오버시 배경 색상 변경 */
 .button:hover {
     background-color: #0056b3;
@@ -146,4 +151,17 @@
 
 .nav-item:hover .navbar {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+
+/* 검색 결과에 대한 하이라이트 스타일 */
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+
+.anchor-highlight {
+    font-weight: bold;
+    color: blue;
 }
