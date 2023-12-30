@@ -110,11 +110,6 @@
             </div>
             <div class="timeline-item">
                 <div class="timeline-mark"></div>
-                <div class="timeline-date" id="start-plan-calculated"></div>
-                <div class="timeline-content">Calculated Start Plan</div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-mark"></div>
                 <div class="timeline-date">{{history.date_due}}</div>
                 <div class="timeline-content">Due</div>
             </div>
@@ -131,64 +126,6 @@
 {% include 'spinner.html' %}
 
 <script>
-
-
-
-//     // 현재 시간을 얻어오는 함수
-//     function getCurrentTime() {
-//         return new Date();
-//     }
-
-//     // 타임라인에서 가장 가까운 시간 항목을 찾는 함수
-//     function findNearestTimelineItem(currentTime) {
-//         var timeline = $(".horizontal-timeline");
-//         var timelineDates = timeline.find(".timeline-date");
-//         var nearestItemIndex = -1;
-//         var nearestItemTimeDiff = Infinity;
-
-//         timelineDates.each(function(index, element) {
-//             var date = new Date($(element).text());
-//             var timeDiff = Math.abs(currentTime - date);
-
-//             if (timeDiff < nearestItemTimeDiff) {
-//                 nearestItemTimeDiff = timeDiff;
-//                 nearestItemIndex = index;
-//             }
-//         });
-
-//         return nearestItemIndex;
-//     }
-
-//     function formatDate(date) {
-//     var year = date.getFullYear();
-//     var month = (date.getMonth() + 1).toString().padStart(2, '0');
-//     var day = date.getDate().toString().padStart(2, '0');
-    
-//     return year + '-' + month + '-' + day;
-// }
-
-//     // 타임라인에 현재 시간 항목 추가
-//     function addCurrentTimeItem() {
-//         var currentTime = getCurrentTime();
-//         var nearestItemIndex = findNearestTimelineItem(currentTime);
-
-//         if (nearestItemIndex >= 0) {
-//             var timeline = $(".horizontal-timeline");
-//             var timelineItems = timeline.find(".timeline-item");
-//             var newTimelineItem = $("<div class='timeline-item current-time'></div>");
-//             var newTimelineMark = $("<div class='timeline-mark'></div>");
-//             var newTimelineDate = $("<div class='timeline-date'>" +  formatDate(currentTime) + "</div>");
-//             var newTimelineContent = $("<div class='timeline-content'>Now</div>");
-
-//             newTimelineItem.append(newTimelineMark);
-//             newTimelineItem.append(newTimelineDate);
-//             newTimelineItem.append(newTimelineContent);
-
-//             timelineItems.eq(nearestItemIndex).after(newTimelineItem);
-//         }
-//     }
-
-//     // 초기에 타임라인에 현재 시간 항목 추가
 
     function addTimeLine(data) {
             var timeline = $(".horizontal-timeline");

@@ -17,17 +17,17 @@ async def products_index_page(request: Request):
 async def make_product_orders(request: Request):
     return templates.TemplateResponse("make_product_orders.html", {"request": request})
 
-@router.get("/api/get_date_plan_calculated")
-async def api_get_date_plan_calculated(history_id: int = None):
-    # time.sleep(2)
-    ph = ProductHistory(history_id=history_id)
-    date_plan_calculated = ph.get_date_start_plan_calculated()
-    return date_plan_calculated
+# @router.get("/api/get_date_plan_calculated")
+# async def api_get_date_plan_calculated(history_id: int = None):
+#     # time.sleep(2)
+#     ph = ProductHistory(history_id=history_id)
+#     date_plan_calculated = ph.get_date_start_plan_calculated()
+#     return date_plan_calculated
 
 
 @router.get("/api/get_time_line")
 async def api_get_date_plan_calculated(history_id: int = None):
-    # time.sleep(2)
+    time.sleep(2)
     ph = ProductHistory(history_id=history_id)
     ph.get_product_history_detail()
     time_line_list = ph.get_time_line()
