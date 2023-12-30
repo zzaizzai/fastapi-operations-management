@@ -7,3 +7,24 @@
         <circle class="pl__ring pl__ring--d" cx="155" cy="120" r="70" fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440" stroke-linecap="round"></circle>
     </svg>
 </div>
+
+
+<script>
+
+    function showSpinner() {
+        // Add the blur class to the container
+        $("#overlay").show();
+
+        // Show the spinner
+        $(".spinner-box").show();
+    }
+
+
+    function hideSpinner() {
+        // Remove the blur class
+        $("#overlay").hide();
+
+        // Hide the spinner
+        $(".spinner-box").hide();
+    }
+</script>

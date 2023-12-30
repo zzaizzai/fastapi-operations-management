@@ -3,34 +3,37 @@
 {% block content %}
 
 <style>
-    
-    h2 {
-        color: #333;
-        margin-bottom: 20px;
-    }
 
-    h3 {
-        color: #555;
-    }
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
 
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+h3 {
+    color: #555;
+}
 
-    .product-details {
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
-/* 기본 스타일 */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-details {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Time Line */
 .horizontal-timeline {
   position: relative;
 }
@@ -53,7 +56,7 @@
   border-radius: 50%;
 }
 
-/* 회색 선 스타일 설정 */
+/* Gray Line of Time Line*/
 .timeline-item::before {
     content: '';
     position: absolute;
@@ -147,11 +150,7 @@
         // Disable the button while loading
         $("#calculateButton").prop("disabled", true);
 
-        // Add the blur class to the container
-        $("#overlay").show();
-
-        // Show the spinner
-        $(".spinner-box").show();
+        showSpinner()
 
         // Make an AJAX request to the API
         $.ajax({
@@ -161,12 +160,7 @@
             success: function(data) {
                 // Update the result div with the received data
 
-                // Remove the blur class
-                $("#overlay").hide();
-
-                // Hide the spinner
-                $(".spinner-box").hide();
-
+                hideSpinner()
                 // Enable the button
                 $("#calculateButton").prop("disabled", false);
                 
@@ -183,11 +177,7 @@
             error: function() {
                 alert("Error fetching data from the API.");
 
-                // Remove the blur class
-                $("#overlay").hide();
-
-                // Hide the spinner
-                $(".spinner").hide();
+                hideSpinner()
 
                 // Enable the button
                 $("#calculateButton").prop("disabled", false);
