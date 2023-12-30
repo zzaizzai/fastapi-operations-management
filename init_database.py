@@ -166,28 +166,33 @@ def add_products(num_data: int):
 def add_product_history(product_id):
     cursor = db.cursor()
     today = datetime.today()
-    random_days = random.randint(7, 14)
+
+    # next month
+    random_days = random.randint(30, 60)
     random_date = today + timedelta(days=random_days)
-    sql_formatted_date = random_date.strftime('%Y-%m-%d')
+    sql_formatted_randomdate = random_date.strftime('%Y-%m-%d')
 
     random_quantity = random.randint(20, 50)
     cursor.execute('INSERT INTO products_history (product_id, quantity, date_due) VALUES (?, ?, ?)', 
-                (product_id, random_quantity, sql_formatted_date))
+                (product_id, random_quantity, sql_formatted_randomdate))
     db.commit()    
     cursor.close()
 
 def add_product_histories(num_data: int, num_data_of_product: int):
     cursor = db.cursor()
     today = datetime.today()
-    random_days = random.randint(7, 14)
-    random_date = today + timedelta(days=random_days)
-    sql_formatted_date = random_date.strftime('%Y-%m-%d')
 
     for _ in range(1, num_data + 1):
+        
+        # next month
+        random_days = random.randint(30, 60)
+        random_date = today + timedelta(days=random_days)
+        sql_formatted_randomdate = random_date.strftime('%Y-%m-%d')
+        
         random_product_id = random.randint(1, num_data_of_product - 1 )
         random_quantity = random.randint(20, 50)
         cursor.execute('INSERT INTO products_history (product_id, quantity, date_due) VALUES (?, ?, ?)', 
-                    (random_product_id, random_quantity, sql_formatted_date))
+                    (random_product_id, random_quantity, sql_formatted_randomdate))
         
     db.commit()    
     cursor.close()
