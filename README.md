@@ -11,7 +11,7 @@ I think ERP system with microservice could be commercialized.
 
 **OM(Operations Management)**
 Orders(from other system) -> Create Production Operations -> Create Part Operations
--> Calculate Produce Plans -> Deliver to Customer
+-> Calculate Production Plans -> Deliver to Customer
 
 ## install
 ```
