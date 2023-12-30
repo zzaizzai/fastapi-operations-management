@@ -76,19 +76,14 @@ h3 {
   /* 이벤트 내용 스타일 설정 */
 }
 
-
 </style>
-
-
 
 
 {% if history %}
 <div class="container">
 
-
-
-
     <h2>History Detail</h2>
+
     <div class="product-details">
         <h3>Operation ID: {{history.id}}</h3>
         <div>Product Name: {{history.product_name}}</div>
@@ -130,60 +125,60 @@ h3 {
 
 <script>
 
-    function addTimeLine(data) {
+const addTimeLine = (data) => {
+    var timeline = $(".horizontal-timeline");
+    var newTimelineItem = $("<div class='timeline-item'></div>");
+    var newTimelineMark = $("<div class='timeline-mark'></div>");
+    var newTimelineDate = $("<div class='timeline-date'>" +  data.date + "</div>");
+    var newTimelineContent = $(`<div class='timeline-content'>${data.title}</div>`);
+
+    newTimelineItem.append(newTimelineMark);
+    newTimelineItem.append(newTimelineDate);
+    newTimelineItem.append(newTimelineContent);
+    timeline.append(newTimelineItem)
+}
+
+
+
+// Define a separate function to handle the button click
+const handleCalculateButtonClick = () => {
+    // Disable the button while loading
+    $("#calculateButton").prop("disabled", true);
+
+    showSpinner()
+
+    // Make an AJAX request to the API
+    $.ajax({
+        url: "/products/api/get_time_line?history_id={{history.id}}",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            // Update the result div with the received data
+
+            hideSpinner()
+            // Enable the button
+            $("#calculateButton").prop("disabled", false);
+            
             var timeline = $(".horizontal-timeline");
-            var newTimelineItem = $("<div class='timeline-item'></div>");
-            var newTimelineMark = $("<div class='timeline-mark'></div>");
-            var newTimelineDate = $("<div class='timeline-date'>" +  data.date + "</div>");
-            var newTimelineContent = $(`<div class='timeline-content'>${data.title}</div>`);
-
-            newTimelineItem.append(newTimelineMark);
-            newTimelineItem.append(newTimelineDate);
-            newTimelineItem.append(newTimelineContent);
-            timeline.append(newTimelineItem)
-    }
-
-
-
-    // Define a separate function to handle the button click
-    function handleCalculateButtonClick() {
-        // Disable the button while loading
-        $("#calculateButton").prop("disabled", true);
-
-        showSpinner()
-
-        // Make an AJAX request to the API
-        $.ajax({
-            url: "/products/api/get_time_line?history_id={{history.id}}",
-            method: "GET",
-            dataType: "json",
-            success: function(data) {
-                // Update the result div with the received data
-
-                hideSpinner()
-                // Enable the button
-                $("#calculateButton").prop("disabled", false);
+            timeline.children().remove()
+            $("#start-plan-calculated").html(data);
+            console.log(data)
+            data.forEach(element => {
+                addTimeLine(element)
                 
-                var timeline = $(".horizontal-timeline");
-                timeline.children().remove()
-                $("#start-plan-calculated").html(data);
-                console.log(data)
-                data.forEach(element => {
-                    addTimeLine(element)
-                    
-                });
-                // addCurrentTimeItem()
-            },
-            error: function() {
-                alert("Error fetching data from the API.");
+            });
+            // addCurrentTimeItem()
+        },
+        error: function() {
+            alert("Error fetching data from the API.");
 
-                hideSpinner()
+            hideSpinner()
 
-                // Enable the button
-                $("#calculateButton").prop("disabled", false);
-            }
-        });
-    }
+            // Enable the button
+            $("#calculateButton").prop("disabled", false);
+        }
+    });
+}
 
 
 

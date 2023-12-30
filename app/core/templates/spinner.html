@@ -11,20 +11,21 @@
 
 <script>
 
-    function showSpinner() {
-        // Add the blur class to the container
-        $("#overlay").show();
+const showSpinner = () => {
+    // show gray background
+    $("#overlay").show();
 
-        // Show the spinner
-        $(".spinner-box").show();
-    }
+    // Show the spinner
+    $(".spinner-box").show();
+};
 
 
-    function hideSpinner() {
-        // Remove the blur class
-        $("#overlay").hide();
+const hideSpinner = () => {
+    // hide gray background
+    $("#overlay").hide();
 
-        // Hide the spinner
-        $(".spinner-box").hide();
-    }
+    // Hide the spinner
+    $(".spinner-box").hide();
+}
+
 </script>
