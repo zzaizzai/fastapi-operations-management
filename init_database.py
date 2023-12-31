@@ -178,7 +178,7 @@ def add_product_operation(product_id):
     db.commit()    
     cursor.close()
 
-def add_product_histories(num_data: int, num_data_of_product: int):
+def add_product_operations(num_data: int, num_data_of_product: int):
     cursor = db.cursor()
     today = datetime.today()
 
@@ -203,7 +203,7 @@ def create_demodata() -> None:
 
     add_products(num_data_of_product)
     add_parts(num_data_of_product, 6)
-    add_product_histories(300, num_data_of_product)
+    add_product_operations(300, num_data_of_product)
     
     print("Database initialized and tables created.")
     
