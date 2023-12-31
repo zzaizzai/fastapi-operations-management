@@ -18,28 +18,28 @@ class Product():
         self.price_sell = price_sell
 
 
-class ProductHistory():
+class ProductOperation():
     
-    history_data: List[Dict[str, Any]] = []
-    history_detail_data: Dict[str, Any] = {}
+    operation_data: List[Dict[str, Any]] = []
+    operation_detail_data: Dict[str, Any] = {}
     
     def __init__(self, 
                 product_id: Optional[int] = None, 
                 q: Optional[str] = None, 
                 sort: str = 'asc', 
                 order: Optional[str] = None,
-                history_id: Optional[int]  = None
+                operation_id: Optional[int]  = None
                 ):
         self.product_id = product_id
         self.q = q
         self.sort = sort
         self.order = order
-        self.history_id = history_id
+        self.operation_id = operation_id
     
-    def get_product_history_detail(self):
-        if len(self.history_detail_data) == 0:
-            self._get_product_history_detail()
-        return self.history_detail_data
+    def get_product_operation_detail(self):
+        if len(self.operation_detail_data) == 0:
+            self._get_product_operation_detail()
+        return self.operation_detail_data
     
     @staticmethod
     def calculate_business_days(start_date: datetime, days_to_subtract: int) -> datetime:
@@ -51,16 +51,16 @@ class ProductHistory():
         return current_date
     
     def get_time_line(self)-> List[Dict[str, Any]]:
-        if len(self.history_detail_data) == 0:
+        if len(self.operation_detail_data) == 0:
             return []
         
         time_line_list = []
         today = date.today().strftime('%Y-%m-%d')
         
         time_line_list.append({"title": "Today","date": today})
-        time_line_list.append({"title": "Created","date":self.history_detail_data['datetime_created']})
-        # time_line_list.append({"title": 'datetime_sold',"date":self.history_detail_data['datetime_sold']})
-        time_line_list.append({"title": 'Due',"date":self.history_detail_data['date_due']})
+        time_line_list.append({"title": "Created","date":self.operation_detail_data['datetime_created']})
+        # time_line_list.append({"title": 'datetime_sold',"date":self.operation_detail_data['datetime_sold']})
+        time_line_list.append({"title": 'Due',"date":self.operation_detail_data['date_due']})
         time_line_list.append({"title": 'Start Plan Calculated',"date":self.get_date_start_plan_calculated()})
 
         # 날짜를 기준으로 리스트 정렬
@@ -68,10 +68,10 @@ class ProductHistory():
         return sorted_time_line
     
     def get_date_start_plan_calculated(self) -> str:
-        if len(self.history_detail_data) == 0:
+        if len(self.operation_detail_data) == 0:
             return 'none'
         
-        data = self.history_detail_data
+        data = self.operation_detail_data
         date_due = datetime.strptime(data['date_due'], '%Y-%m-%d')
 
         # Calculate the new date by subtracting business days
@@ -87,8 +87,8 @@ class ProductHistory():
         return new_date_str
     
     
-    def _get_product_history_detail(self) -> None:
-        self.history_detail_data
+    def _get_product_operation_detail(self) -> None:
+        self.operation_detail_data
 
         cursor = db_manager.get_cursor()
         query = f"""
@@ -96,22 +96,22 @@ class ProductHistory():
                 ph.*, 
                 pm.name AS product_name ,
                 pm.lead_time AS lead_time 
-            FROM products_history ph 
+            FROM products_operation ph 
             LEFT JOIN products_model pm ON ph.product_id = pm.id
-            WHERE ph.id = {self.history_id}
+            WHERE ph.id = {self.operation_id}
             """
             
         cursor.execute(query)
-        history_detail = fetch_all_as_dict(cursor)
+        operation_detail = fetch_all_as_dict(cursor)
         cursor.close()
-        if len(history_detail) > 0:
-            self.history_detail_data= history_detail[0]
+        if len(operation_detail) > 0:
+            self.operation_detail_data= operation_detail[0]
         
     def search_products_with_q(self) -> None:
         
         # # get all
         # if self.q is None or len(self.q) == 0:
-        #     self.history_data = self.get_all()
+        #     self.operation_data = self.get_all()
         #     return
         
         cursor = db_manager.get_cursor()
@@ -119,7 +119,7 @@ class ProductHistory():
             SELECT 
                 ph.*, 
                 pm.name AS product_name 
-            FROM products_history ph 
+            FROM products_operation ph 
             LEFT JOIN products_model pm ON ph.product_id = pm.id
             """
     
@@ -133,12 +133,12 @@ class ProductHistory():
         products = fetch_all_as_dict(cursor)
         cursor.close()
         
-        self.history_data = products
+        self.operation_data = products
     
-    def get_history_data(self) -> List[Dict[str, Any]]:
-        if len(self.history_data) == 0:
+    def get_operation_data(self) -> List[Dict[str, Any]]:
+        if len(self.operation_data) == 0:
             self.search_products_with_q()
-        return self.history_data
+        return self.operation_data
     
     @classmethod
     def get_all(cls) -> List[Dict[str, Any]]:
@@ -147,7 +147,7 @@ class ProductHistory():
                     select 
                         ph.*, 
                         pm.name as product_name 
-                    from products_history ph 
+                    from products_operation ph 
                     left join products_model pm on ph.product_id = pm.id
                     """)
         items = fetch_all_as_dict(cursor)

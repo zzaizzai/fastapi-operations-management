@@ -20,7 +20,7 @@ def initialize_database():
     ''')
     
     cursor.execute('''
-        DROP TABLE IF EXISTS products_history;
+        DROP TABLE IF EXISTS products_operation;
     ''')
     
     cursor.execute('''
@@ -46,7 +46,7 @@ def initialize_database():
 
     # 새로운 테이블 생성
     cursor.execute('''
-        CREATE TABLE products_history (
+        CREATE TABLE products_operation (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             product_id INTEGER NOT NULL,
             quantity INTEGER,
@@ -163,7 +163,7 @@ def add_products(num_data: int):
     db.commit()    
     cursor.close()
     
-def add_product_history(product_id):
+def add_product_operation(product_id):
     cursor = db.cursor()
     today = datetime.today()
 
@@ -173,7 +173,7 @@ def add_product_history(product_id):
     sql_formatted_randomdate = random_date.strftime('%Y-%m-%d')
 
     random_quantity = random.randint(20, 50)
-    cursor.execute('INSERT INTO products_history (product_id, quantity, date_due) VALUES (?, ?, ?)', 
+    cursor.execute('INSERT INTO products_operation (product_id, quantity, date_due) VALUES (?, ?, ?)', 
                 (product_id, random_quantity, sql_formatted_randomdate))
     db.commit()    
     cursor.close()
@@ -191,7 +191,7 @@ def add_product_histories(num_data: int, num_data_of_product: int):
         
         random_product_id = random.randint(1, num_data_of_product - 1 )
         random_quantity = random.randint(20, 50)
-        cursor.execute('INSERT INTO products_history (product_id, quantity, date_due) VALUES (?, ?, ?)', 
+        cursor.execute('INSERT INTO products_operation (product_id, quantity, date_due) VALUES (?, ?, ?)', 
                     (random_product_id, random_quantity, sql_formatted_randomdate))
         
     db.commit()    

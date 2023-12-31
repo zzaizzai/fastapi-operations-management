@@ -41,7 +41,7 @@
 </style>
 
 
-<h2>Products History</h2>
+<h2>Product Operations</h2>
 
 
 <style>
@@ -113,6 +113,9 @@ function toggleSort() {
     document.querySelector('form').submit();
 }
 </script>
+
+
+
 <table>
     <thead>
         <tr>
@@ -121,21 +124,25 @@ function toggleSort() {
             <th>Quantity</th>
             <th>Operation Created</th>
             <th>Due Date</th>
+            <th>Plan Date</th>
+            <th>Production Date</th>
             <th>Current Location</th>
             <th>Process</th>
         </tr>
     </thead>
     <tbody>
-        {% if histories %}
-            {% for history in histories %}
+        {% if operations %}
+            {% for operation in operations %}
                 <tr>
-                    <td>{{ history.id }}</td>
-                    <td ><a class="anchor-highlight" href="{{url_for('product_history_detail', history_id=history.id )}}">{{history.product_name }}</a></td>
-                    <td>{{ history.quantity }}</td>
-                    <td>{{ history.datetime_created }}</td>
-                    <td>{{ history.date_due }}</td>
-                    <td>{{ history.location_current }}</td>
-                    <td>{{ history.process }}</td>
+                    <td>{{ operation.id }}</td>
+                    <td ><a class="anchor-highlight" href="{{url_for('product_operation_detail', operation_id=operation.id )}}">{{operation.product_name }}</a></td>
+                    <td>{{ operation.quantity or 'No Quantity' }}</td>
+                    <td>{{ operation.datetime_created or "Error"}}</td>
+                    <td>{{ operation.date_due or "Error" }}</td>
+                    <td>{{ operation.date_plan or "No Plan" }}</td>
+                    <td>{{ operation.datetime_produced or "Not Produced" }}</td>
+                    <td>{{ operation.location_current }}</td>
+                    <td>{{ operation.process }}</td>
                 </tr>
             {% endfor %}
         {% endif %}
