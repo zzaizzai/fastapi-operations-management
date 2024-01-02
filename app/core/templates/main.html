@@ -17,7 +17,6 @@
     <a href="{{ url_for('parts_index_page') }}" class="button button-blue button-disable  mx-5">Parts</a>
 </div>
 
-
 <div>
     <a id="createDemoData" href="#" class="button button-green mx-5" style="position: relative;">
         <span id="textLabel">Create Demo Data</span>
@@ -29,11 +28,11 @@
 <script>
 var isAjaxInProgress = false; // AJAX 요청 진행 중 여부를 저장하는 변수
 
-function sleep(ms) {
+const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-document.getElementById("createDemoData").addEventListener("click", async function () {
+document.getElementById("createDemoData").addEventListener("click", async () => {
     // 이미 AJAX 요청이 진행 중이면 클릭 이벤트를 무시
     if (isAjaxInProgress) {
         return;

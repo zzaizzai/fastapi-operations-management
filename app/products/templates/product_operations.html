@@ -151,7 +151,7 @@ function toggleSort() {
 
 <script>
 
-function highlightSearchTerm(searchTerm) {
+const highlightSearchTerm = (searchTerm) => {
     if (searchTerm) {
         var elements = document.querySelectorAll(".anchor-highlight");
         elements.forEach(function (element) {
