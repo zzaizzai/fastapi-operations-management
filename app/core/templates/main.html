@@ -24,8 +24,9 @@
     </a>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
-<script>
+<script type="module"> 
+import { createSpinner } from "../static/js/spinner.js"
+
 var isAjaxInProgress = false; // AJAX 요청 진행 중 여부를 저장하는 변수
 
 const sleep = (ms) => {
@@ -42,31 +43,8 @@ document.getElementById("createDemoData").addEventListener("click", async () => 
     document.getElementById("createDemoData").disabled = true;
     document.getElementById("textLabel").style.opacity = "0.5";
 
-    // Spin.js 설정
-    var opts = {
-        lines: 8,
-        length: 28,
-        width: 22,
-        radius: 45,
-        scale: 0.2,
-        corners: 1,
-        speed: 1.0,
-        rotate: 0,
-        animation: 'spinner-line-fade-default',
-        direction: 1,
-        color: '#000000',
-        fadeColor: 'transparent',
-        top: '51%',
-        left: '50%',
-        shadow: '0 0 1px transparent',
-        zIndex: 2000000000,
-        className: 'spinner',
-        position: 'absolute',
-    };
-
     // Spin.js로 스핀 아이콘 생성 및 시작
-    var spinner = new Spinner(opts).spin(document.getElementById("spinnerContainer"));
-    document.getElementById("spinnerContainer").style.display = "block";
+    var spinner = createSpinner("spinnerContainer"); // createSpinner 함수 호출
 
     // AJAX 요청 진행 중임을 표시
     isAjaxInProgress = true;
