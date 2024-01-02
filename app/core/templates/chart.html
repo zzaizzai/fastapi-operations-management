@@ -1,0 +1,32 @@
+
+<script>
+
+const createChart = (elementId, data) => {
+    // 새로운 canvas 요소 생성
+    const canvas = document.createElement('canvas');
+    canvas.id = elementId;
+
+    // 생성한 canvas 요소를 어떤 DOM 요소에든 추가할 수 있음
+    // 예를 들어, body 요소에 추가하는 경우:
+    // document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [12, 19, 3, 5, 2, 3],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        }
+    });
+
+    return canvas;
+}
+
+
+</script>

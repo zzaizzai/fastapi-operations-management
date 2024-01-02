@@ -134,13 +134,11 @@ h3 {
 
 </div>
 
-
 {% include 'spinner.html' %}
+{% include 'chart.html' %}
 
 <script>
 
-    // TODO: get other opeations with same product_id 
-    // and show those with chat.js
 const getSameOperations = () => {
 
     fetch("/products/api/get_past_operations/{{operation.product_id}}", {
@@ -156,7 +154,12 @@ const getSameOperations = () => {
     })
     .then(data => {
 
+        const operationBox = document.getElementById("sameOperations")
+        
+        const aaaa = createChart("1", {})
+        operationBox.appendChild(aaaa)
         var sameOperations = document.getElementById("sameOperations");
+
 
         data.forEach(function (element) {
             var operation = document.createElement("div");
