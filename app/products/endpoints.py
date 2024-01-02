@@ -33,6 +33,15 @@ async def api_get_date_plan_calculated(operation_id: int = None):
     time_line_list = ph.get_time_line()
     return time_line_list
 
+@router.get("/api/get_past_operations/{product_id}")
+async def api_get_past_operations(product_id: int = None):
+    operations = ProductOperation()\
+        .search_products_operation_with_id(product_id=product_id)\
+        .get_operations_data()
+    return operations
+
+
+
 @router.get("/operations")
 async def view_operations(request: Request, sort: str = 'asc', order: str = None, q: str = ""):
     context = {}
@@ -43,7 +52,7 @@ async def view_operations(request: Request, sort: str = 'asc', order: str = None
     
     ph = ProductOperation(sort=sort, order=order, q=q)
     ph.search_products_with_q()
-    operations = ph.get_operation_data()
+    operations = ph.get_operations_data()
     context['operations'] = operations
     return templates.TemplateResponse("product_operations.html", context)
 

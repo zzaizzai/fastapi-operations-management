@@ -126,10 +126,57 @@ h3 {
 
     <button class="mx-5 button button-red" id="calculateButton" onclick="handleCalculateButtonClick()">Calculate</button>
     <div id="result"></div> <!-- This is where the calculated data will be displayed -->
+
+
+
+    <button class="mx-5 button button-blue" onclick="getSameOperations()">Show Other Operations</button>
+    <div id="sameOperations"></div>
+
 </div>
 
 
 {% include 'spinner.html' %}
+
+<script>
+
+    // TODO: get other opeations with same product_id 
+    // and show those with chat.js
+const getSameOperations = () => {
+
+    fetch("/products/api/get_past_operations/{{operation.product_id}}", {
+        method: "GET",
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Error with API");
+            
+        }
+    })
+    .then(data => {
+
+        var sameOperations = document.getElementById("sameOperations");
+
+        data.forEach(function (element) {
+            var operation = document.createElement("div");
+            operation.textContent = element.quantity;
+            sameOperations.appendChild(operation)
+        });
+    })
+    .catch(error => {
+        console.error(error.message);
+        alert("Error");
+    })
+    .finally(() => {
+
+    });
+}
+
+
+
+</script>
+
 
 <script>
 const addTimeLine = (data)  => {
@@ -176,7 +223,7 @@ const handleCalculateButtonClick = () => {
         if (response.ok) {
             return response.json();
         } else {
-            throw new Error("API에서 데이터를 가져오는 중 오류가 발생했습니다.");
+            throw new Error("Error with API");
         }
     })
     .then(data => {
@@ -189,7 +236,7 @@ const handleCalculateButtonClick = () => {
     })
     .catch(error => {
         console.error(error.message);
-        alert("오류가 발생했습니다.");
+        alert("Error");
     })
     .finally(() => {
         hideSpinner();

@@ -1,8 +1,11 @@
-from db import db_manager, fetch_all_as_dict
-from dataclasses import dataclass, asdict
-from typing import Dict, Any, List, get_type_hints, Type, Optional
 from datetime import datetime, timedelta, date
+from typing import Dict, Any, List, get_type_hints, Type, Optional
 from operator import itemgetter
+
+from db import db_manager, fetch_all_as_dict
+
+
+
 class Product():
     def __init__(self, 
                 product_id: int = None, 
@@ -20,7 +23,7 @@ class Product():
 
 class ProductOperation():
     
-    operation_data: List[Dict[str, Any]] = []
+    operations_data: List[Dict[str, Any]] = []
     operation_detail_data: Dict[str, Any] = {}
     
     def __init__(self, 
@@ -106,6 +109,24 @@ class ProductOperation():
         cursor.close()
         if len(operation_detail) > 0:
             self.operation_detail_data= operation_detail[0]
+    
+    def search_products_operation_with_id(self, product_id: int) -> Type['ProductOperation']:
+        
+        cursor = db_manager.get_cursor()
+        query = f"""
+            SELECT 
+                ph.*, 
+                pm.name AS product_name 
+            FROM products_operation ph 
+            LEFT JOIN products_model pm ON ph.product_id = pm.id
+            WHERE ph.product_id = '{product_id}'
+            """
+        cursor.execute(query)
+        products = fetch_all_as_dict(cursor)
+        self.operations_data = products
+        cursor.close()
+        
+        return self
         
     def search_products_with_q(self) -> None:
         
@@ -133,12 +154,12 @@ class ProductOperation():
         products = fetch_all_as_dict(cursor)
         cursor.close()
         
-        self.operation_data = products
+        self.operations_data = products
     
-    def get_operation_data(self) -> List[Dict[str, Any]]:
-        if len(self.operation_data) == 0:
+    def get_operations_data(self) -> List[Dict[str, Any]]:
+        if len(self.operations_data) == 0:
             self.search_products_with_q()
-        return self.operation_data
+        return self.operations_data
     
     @classmethod
     def get_all(cls) -> List[Dict[str, Any]]:
