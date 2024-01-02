@@ -31,13 +31,13 @@
         <mxCell id="O6RX6xmFmg8oIAW6GkgI-9" value="Make a Order of Parts" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="434" y="360" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="O6RX6xmFmg8oIAW6GkgI-15" value="Products_History" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-15" value="Products_operation" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
           <mxGeometry x="640" y="260" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="O6RX6xmFmg8oIAW6GkgI-16" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;dashed=1;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-3" target="O6RX6xmFmg8oIAW6GkgI-15">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="O6RX6xmFmg8oIAW6GkgI-17" value="Parts_History" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
+        <mxCell id="O6RX6xmFmg8oIAW6GkgI-17" value="Parts_operation" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
           <mxGeometry x="640" y="460" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="O6RX6xmFmg8oIAW6GkgI-20" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=classic;dashed=1;" edge="1" parent="1" source="O6RX6xmFmg8oIAW6GkgI-19" target="O6RX6xmFmg8oIAW6GkgI-17">

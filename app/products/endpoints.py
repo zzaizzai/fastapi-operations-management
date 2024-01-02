@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 import time
-from .model import ProductControl, ProductHistory
+from .model import ProductControl, ProductOperation
 router = APIRouter(prefix="/products")
 
 templates = Jinja2Templates(directory=["app/core/templates", "app/products/templates"])
@@ -18,22 +18,31 @@ async def make_product_orders(request: Request):
     return templates.TemplateResponse("make_product_orders.html", {"request": request})
 
 # @router.get("/api/get_date_plan_calculated")
-# async def api_get_date_plan_calculated(history_id: int = None):
+# async def api_get_date_plan_calculated(operation_id: int = None):
 #     # time.sleep(2)
-#     ph = ProductHistory(history_id=history_id)
+#     ph = Productoperation(operation_id=operation_id)
 #     date_plan_calculated = ph.get_date_start_plan_calculated()
 #     return date_plan_calculated
 
 
 @router.get("/api/get_time_line")
-async def api_get_date_plan_calculated(history_id: int = None):
+async def api_get_date_plan_calculated(operation_id: int = None):
     time.sleep(2)
-    ph = ProductHistory(history_id=history_id)
-    ph.get_product_history_detail()
+    ph = ProductOperation(operation_id=operation_id)
+    ph.get_product_operation_detail()
     time_line_list = ph.get_time_line()
     return time_line_list
 
-@router.get("/history")
+@router.get("/api/get_past_operations/{product_id}")
+async def api_get_past_operations(product_id: int = None):
+    operations = ProductOperation()\
+        .search_products_operation_with_id(product_id=product_id)\
+        .get_operations_data()
+    return operations
+
+
+
+@router.get("/operations")
 async def view_operations(request: Request, sort: str = 'asc', order: str = None, q: str = ""):
     context = {}
     context['request'] = request
@@ -41,28 +50,28 @@ async def view_operations(request: Request, sort: str = 'asc', order: str = None
     context['sort'] = sort
     context['q'] = q
     
-    ph = ProductHistory(sort=sort, order=order, q=q)
+    ph = ProductOperation(sort=sort, order=order, q=q)
     ph.search_products_with_q()
-    histories = ph.get_history_data()
-    context['histories'] = histories
-    return templates.TemplateResponse("view_product_history.html", context)
+    operations = ph.get_operations_data()
+    context['operations'] = operations
+    return templates.TemplateResponse("product_operations.html", context)
 
-@router.get("/history_detail/{history_id}")
-async def product_history_detail(request: Request, history_id: int):
+@router.get("/operation_detail/{operation_id}")
+async def product_operation_detail(request: Request, operation_id: int):
     context = {}
     context['request'] = request
-    ph = ProductHistory(history_id=history_id)
-    history = ph.get_product_history_detail()
-    context['history'] = history
+    ph = ProductOperation(operation_id=operation_id)
+    operation = ph.get_product_operation_detail()
+    context['operation'] = operation
     
-    if len(history) == 0:
+    if len(operation) == 0:
         context['msg'] = 'no data'
         
-    return templates.TemplateResponse("history_detail.html", context)
+    return templates.TemplateResponse("product_operation_detail.html", context)
 
 @router.get("/api/operations")
 async def api_operations():
-    return ProductHistory.get_all()
+    return ProductOperation.get_all()
 
 
 

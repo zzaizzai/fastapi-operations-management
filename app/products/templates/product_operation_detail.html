@@ -1,0 +1,257 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #555;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-details {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Time Line */
+.horizontal-timeline {
+    position: relative;
+}
+
+.timeline-item {
+    position: relative;
+    padding: 10px;
+}
+
+.timeline-item-red {
+    color: red;
+}
+
+.timeline-mark {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-left: -4px;
+    margin-top: -4px;
+    width: 8px;
+    height: 8px;
+    background: #919191;
+    border-radius: 50%;
+}
+
+.timeline-mark-red {
+    background: #ff4343;
+}
+
+/* Gray Line of Time Line*/
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -2px;
+    height: 100%;
+    width: 4px;
+    background: #e2e2e2;
+}
+
+.timeline-date {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.timeline-content {
+  /* 이벤트 내용 스타일 설정 */
+}
+
+</style>
+
+
+{% if operation %}
+<div class="container">
+
+    <h2>Prouduct Operation Detail</h2>
+
+    <div class="product-details">
+        <h3>Operation ID: {{operation.id}}</h3>
+        <div>Product Name: {{operation.product_name}}</div>
+        <div>Quantity: {{operation.quantity}}</div>
+        <!-- <div>Created: {{operation.datetime_created}}</div> -->
+        <!-- <div>Due: {{operation.date_due}}</div> -->
+        <div>Sold: {{operation.datetime_sold}}</div>
+        <div>Current Location: {{operation.location_current}}</div>
+        <div>Process: {{operation.process}}</div>
+        <div>Lead_time: {{operation.lead_time}}</div>
+        <div>Lot: {{operation.lot}}</div>
+    </div>
+
+    
+    <div class="mx-5">
+        <h3>Time Line</h3>
+        <div class="horizontal-timeline">
+            <!-- <div class="timeline-item">
+                <div class="timeline-mark"></div>
+                <div class="timeline-date">{{operation.datetime_created}}</div>
+                <div class="timeline-content">Created</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-mark"></div>
+                <div class="timeline-date">{{operation.date_due}}</div>
+                <div class="timeline-content">Due</div>
+            </div> -->
+            <!-- Add more timeline items here -->
+        </div>
+    </div>
+
+
+    <button class="mx-5 button button-red" id="calculateButton" onclick="handleCalculateButtonClick()">Calculate</button>
+    <div id="result"></div> <!-- This is where the calculated data will be displayed -->
+
+
+
+    <button class="mx-5 button button-blue" onclick="getSameOperations()">Show Other Operations</button>
+    <div id="sameOperations"></div>
+
+</div>
+
+{% include 'spinner.html' %}
+{% include 'chart.html' %}
+
+<script>
+
+const getSameOperations = () => {
+
+    fetch("/products/api/get_past_operations/{{operation.product_id}}", {
+        method: "GET",
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Error with API");
+            
+        }
+    })
+    .then(data => {
+
+        const operationBox = document.getElementById("sameOperations")
+        
+        const aaaa = createChart("1", {})
+        operationBox.appendChild(aaaa)
+        var sameOperations = document.getElementById("sameOperations");
+
+
+        data.forEach(function (element) {
+            var operation = document.createElement("div");
+            operation.textContent = element.quantity;
+            sameOperations.appendChild(operation)
+        });
+    })
+    .catch(error => {
+        console.error(error.message);
+        alert("Error");
+    })
+    .finally(() => {
+
+    });
+}
+
+
+
+</script>
+
+
+<script>
+const addTimeLine = (data)  => {
+    var timeline = document.querySelector(".horizontal-timeline");
+    var newTimelineItem = document.createElement("div");
+    newTimelineItem.className = "timeline-item";
+
+    var newTimelineMark = document.createElement("div");
+    newTimelineMark.className = "timeline-mark";
+
+    var newTimelineDate = document.createElement("div");
+    newTimelineDate.className = "timeline-date";
+    newTimelineDate.textContent = data.date;
+
+    var newTimelineContent = document.createElement("div");
+    newTimelineContent.className = "timeline-content";
+    newTimelineContent.textContent = data.title;
+
+    // "today"를 포함하는 경우 폰트 색상을 빨간색으로 표시
+    if (data.title.toLowerCase().includes("today")) {
+        newTimelineItem.classList.add("timeline-item-red");
+        newTimelineMark.classList.add("timeline-mark-red");
+    }
+
+    newTimelineItem.appendChild(newTimelineMark);
+    newTimelineItem.appendChild(newTimelineDate);
+    newTimelineItem.appendChild(newTimelineContent);
+    timeline.appendChild(newTimelineItem);
+}
+
+// 함수: 버튼 클릭 처리
+const handleCalculateButtonClick = () => {
+    // 버튼 비활성화
+    var calculateButton = document.getElementById("calculateButton");
+    calculateButton.disabled = true;
+
+    showSpinner();
+
+    // AJAX 요청 보내기
+    fetch("/products/api/get_time_line?operation_id={{operation.id}}", {
+        method: "GET",
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Error with API");
+        }
+    })
+    .then(data => {
+        var timeline = document.querySelector(".horizontal-timeline");
+        timeline.innerHTML = '';
+
+        data.forEach(function (element) {
+            addTimeLine(element);
+        });
+    })
+    .catch(error => {
+        console.error(error.message);
+        alert("Error");
+    })
+    .finally(() => {
+        hideSpinner();
+
+        // 버튼 다시 활성화
+        var calculateButton = document.getElementById("calculateButton");
+        calculateButton.disabled = false;
+    });
+};
+
+</script>
+
+
+{% endif %}
+{% endblock %}

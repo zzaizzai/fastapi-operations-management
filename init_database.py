@@ -20,7 +20,7 @@ def initialize_database():
     ''')
     
     cursor.execute('''
-        DROP TABLE IF EXISTS products_history;
+        DROP TABLE IF EXISTS products_operation;
     ''')
     
     cursor.execute('''
@@ -46,7 +46,7 @@ def initialize_database():
 
     # 새로운 테이블 생성
     cursor.execute('''
-        CREATE TABLE products_history (
+        CREATE TABLE products_operation (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             product_id INTEGER NOT NULL,
             quantity INTEGER,
@@ -163,31 +163,36 @@ def add_products(num_data: int):
     db.commit()    
     cursor.close()
     
-def add_product_history(product_id):
+def add_product_operation(product_id):
     cursor = db.cursor()
     today = datetime.today()
-    random_days = random.randint(7, 14)
+
+    # next month
+    random_days = random.randint(30, 60)
     random_date = today + timedelta(days=random_days)
-    sql_formatted_date = random_date.strftime('%Y-%m-%d')
+    sql_formatted_randomdate = random_date.strftime('%Y-%m-%d')
 
     random_quantity = random.randint(20, 50)
-    cursor.execute('INSERT INTO products_history (product_id, quantity, date_due) VALUES (?, ?, ?)', 
-                (product_id, random_quantity, sql_formatted_date))
+    cursor.execute('INSERT INTO products_operation (product_id, quantity, date_due) VALUES (?, ?, ?)', 
+                (product_id, random_quantity, sql_formatted_randomdate))
     db.commit()    
     cursor.close()
 
-def add_product_histories(num_data: int, num_data_of_product: int):
+def add_product_operations(num_data: int, num_data_of_product: int):
     cursor = db.cursor()
     today = datetime.today()
-    random_days = random.randint(7, 14)
-    random_date = today + timedelta(days=random_days)
-    sql_formatted_date = random_date.strftime('%Y-%m-%d')
 
     for _ in range(1, num_data + 1):
+        
+        # next month
+        random_days = random.randint(30, 60)
+        random_date = today + timedelta(days=random_days)
+        sql_formatted_randomdate = random_date.strftime('%Y-%m-%d')
+        
         random_product_id = random.randint(1, num_data_of_product - 1 )
         random_quantity = random.randint(20, 50)
-        cursor.execute('INSERT INTO products_history (product_id, quantity, date_due) VALUES (?, ?, ?)', 
-                    (random_product_id, random_quantity, sql_formatted_date))
+        cursor.execute('INSERT INTO products_operation (product_id, quantity, date_due) VALUES (?, ?, ?)', 
+                    (random_product_id, random_quantity, sql_formatted_randomdate))
         
     db.commit()    
     cursor.close()
@@ -198,7 +203,7 @@ def create_demodata() -> None:
 
     add_products(num_data_of_product)
     add_parts(num_data_of_product, 6)
-    add_product_histories(300, num_data_of_product)
+    add_product_operations(300, num_data_of_product)
     
     print("Database initialized and tables created.")
     

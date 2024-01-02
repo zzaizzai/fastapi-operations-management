@@ -4,6 +4,15 @@
 ![Python](https://img.shields.io/badge/Python-3.9.13-blue)
 
 
+
+## Explain
+Simple ERM(Enterprise Resources Planning ) System
+I think ERP system with microservice could be commercialized.
+
+**OM(Operations Management)**
+Orders(from other system) -> Create Production Operations -> Create Part Operations
+-> Calculate Production Plans -> Deliver to Customer
+
 ## install
 ```
 python -m venv venv
@@ -18,5 +27,5 @@ python init_database.py
 
 ## start app
 ```
-uvicorn main:app --reload
+uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 ```
