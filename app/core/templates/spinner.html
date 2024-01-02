@@ -11,21 +11,20 @@
 
 <script>
 
-const showSpinner = () => {
-    // show gray background
-    $("#overlay").show();
 
-    // Show the spinner
-    $(".spinner-box").show();
+const overlay = document.getElementById("overlay");
+const spinnerBox = document.querySelector(".spinner-box");
+
+
+const showSpinner = () => {
+    overlay.style.display = "block";
+    spinnerBox.style.display = "block";
 };
 
 
 const hideSpinner = () => {
-    // hide gray background
-    $("#overlay").hide();
-
-    // Hide the spinner
-    $(".spinner-box").hide();
-}
+    overlay.style.display = "none";
+    spinnerBox.style.display = "none";
+};
 
 </script>

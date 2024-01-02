@@ -132,69 +132,75 @@ h3 {
 {% include 'spinner.html' %}
 
 <script>
+const addTimeLine = (data)  => {
+    var timeline = document.querySelector(".horizontal-timeline");
+    var newTimelineItem = document.createElement("div");
+    newTimelineItem.className = "timeline-item";
 
-const addTimeLine = (data) => {
+    var newTimelineMark = document.createElement("div");
+    newTimelineMark.className = "timeline-mark";
 
-    var timeline = $(".horizontal-timeline");
-    var newTimelineItem = $("<div class='timeline-item'></div>");
-    var newTimelineMark = $("<div class='timeline-mark'></div>");
-    var newTimelineDate = $("<div class='timeline-date'>" +  data.date + "</div>");
-    var newTimelineContent = $(`<div class='timeline-content'>${data.title}</div>`);
+    var newTimelineDate = document.createElement("div");
+    newTimelineDate.className = "timeline-date";
+    newTimelineDate.textContent = data.date;
 
-    // show today with font red
+    var newTimelineContent = document.createElement("div");
+    newTimelineContent.className = "timeline-content";
+    newTimelineContent.textContent = data.title;
+
+    // "today"를 포함하는 경우 폰트 색상을 빨간색으로 표시
     if (data.title.toLowerCase().includes("today")) {
-        var newTimelineItem = $("<div class='timeline-item timeline-item-red'></div>");
-        var newTimelineMark = $("<div class='timeline-mark timeline-mark-red'></div>");
+        newTimelineItem.classList.add("timeline-item-red");
+        newTimelineMark.classList.add("timeline-mark-red");
     }
 
-    newTimelineItem.append(newTimelineMark);
-    newTimelineItem.append(newTimelineDate);
-    newTimelineItem.append(newTimelineContent);
-    timeline.append(newTimelineItem)
+    newTimelineItem.appendChild(newTimelineMark);
+    newTimelineItem.appendChild(newTimelineDate);
+    newTimelineItem.appendChild(newTimelineContent);
+    timeline.appendChild(newTimelineItem);
 }
 
-
-
-// Define a separate function to handle the button click
+// 함수: 버튼 클릭 처리
 const handleCalculateButtonClick = () => {
-    // Disable the button while loading
-    $("#calculateButton").prop("disabled", true);
+    // 버튼 비활성화
+    var calculateButton = document.getElementById("calculateButton");
+    calculateButton.disabled = true;
 
-    showSpinner()
+    showSpinner();
 
-    // Make an AJAX request to the API
-    $.ajax({
-        url: "/products/api/get_time_line?operation_id={{operation.id}}",
+    // AJAX 요청 보내기
+    fetch("/products/api/get_time_line?operation_id={{operation.id}}", {
         method: "GET",
-        dataType: "json",
-        success: (data) => {
-            
-            var timeline = $(".horizontal-timeline");
-            timeline.children().remove()
-
-            data.forEach(element => {
-                addTimeLine(element)
-            });
-        },
-        error: () => {
-            alert("Error fetching data from the API.");
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("API에서 데이터를 가져오는 중 오류가 발생했습니다.");
         }
-    }).always(() => {
+    })
+    .then(data => {
+        var timeline = document.querySelector(".horizontal-timeline");
+        timeline.innerHTML = '';
 
-        hideSpinner()
+        data.forEach(function (element) {
+            addTimeLine(element);
+        });
+    })
+    .catch(error => {
+        console.error(error.message);
+        alert("오류가 발생했습니다.");
+    })
+    .finally(() => {
+        hideSpinner();
 
-        // Enable the button
-        $("#calculateButton").prop("disabled", false);
+        // 버튼 다시 활성화
+        var calculateButton = document.getElementById("calculateButton");
+        calculateButton.disabled = false;
     });
-}
-
-
-
+};
 
 </script>
-
-
-
 
 
 {% endif %}

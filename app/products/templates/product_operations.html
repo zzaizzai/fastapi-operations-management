@@ -149,23 +149,27 @@ function toggleSort() {
     </tbody>
 </table>
 
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 
-    
-    $(document).ready(function () {
-        var searchTerm = "{{ q }}";
-        if (searchTerm) {
-            $(".anchor-highlight").each(function () {
-                var titleText = $(this).text();
-                var highlightedText = titleText.replace(new RegExp(searchTerm, "gi"), function (match) {
-                    return '<span class="highlight">' + match + '</span>';
-                });
-                $(this).html(highlightedText);
+function highlightSearchTerm(searchTerm) {
+    if (searchTerm) {
+        var elements = document.querySelectorAll(".anchor-highlight");
+        elements.forEach(function (element) {
+            var titleText = element.textContent;
+            var highlightedText = titleText.replace(new RegExp(searchTerm, "gi"), function (match) {
+                return '<span class="highlight">' + match + '</span>';
             });
-        }
-    });
+            element.innerHTML = highlightedText;
+        });
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    var searchTerm = "{{ q }}";
+    highlightSearchTerm(searchTerm);
+});
+
 </script>
 
 {% endblock %}

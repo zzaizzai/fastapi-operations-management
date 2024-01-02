@@ -27,18 +27,21 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
 <script>
-
 var isAjaxInProgress = false; // AJAX 요청 진행 중 여부를 저장하는 변수
 
-$("#createDemoData").click(function () {
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+document.getElementById("createDemoData").addEventListener("click", async function () {
     // 이미 AJAX 요청이 진행 중이면 클릭 이벤트를 무시
     if (isAjaxInProgress) {
         return;
     }
 
     // 버튼을 비활성화하고 텍스트를 투명하게 만들고 스핀 아이콘을 표시
-    $("#createDemoData").attr("disabled", true);
-    $("#textLabel").css("opacity", "0.5");
+    document.getElementById("createDemoData").disabled = true;
+    document.getElementById("textLabel").style.opacity = "0.5";
 
     // Spin.js 설정
     var opts = {
@@ -64,47 +67,49 @@ $("#createDemoData").click(function () {
 
     // Spin.js로 스핀 아이콘 생성 및 시작
     var spinner = new Spinner(opts).spin(document.getElementById("spinnerContainer"));
-    $('#spinnerContainer').show();
+    document.getElementById("spinnerContainer").style.display = "block";
 
     // AJAX 요청 진행 중임을 표시
     isAjaxInProgress = true;
+    await sleep(1000); // 1초 동안 멈춤
 
     // AJAX 요청 보내기
-    $.ajax({
-        type: "GET",
-        url: "{{ url_for('api_create_demodata') }}",
-        success: function (response) {
+    try {
+        var response = await fetch("{{ url_for('api_create_demodata') }}", {
+            method: "GET",
+        });
+
+        if (response.ok) {
             console.log("done");
 
             // AJAX 요청 완료 후 버튼을 활성화하고 텍스트를 다시 보이게 하고 스핀 아이콘을 중지하고 컨테이너를 숨김
-            $("#createDemoData").attr("disabled", false);
-            $("#textLabel").css("opacity", "1");
+            document.getElementById("createDemoData").disabled = false;
+            document.getElementById("textLabel").style.opacity = "1";
             spinner.stop();
-            $('#spinnerContainer').hide();
-            console.log(response)
-            // 현재 #message 요소의 텍스트 값을 가져와서 message 변수에 할당
-            var message = $('#message').text('Message: Created demo data');
+            document.getElementById("spinnerContainer").style.display = "none";
 
-            // message 변수의 값을 변경
+            // 현재 #message 요소의 텍스트 값을 가져와서 message 변수에 할당
+            var message = document.getElementById('message');
+            message.textContent = 'Message: Created demo data';
 
             // message 변수가 포함된 요소에 "highlight" 클래스 추가
-            $('#message').addClass('message-green');
-            // AJAX 요청 완료 후 AJAX 요청 진행 중 여부를 false로 설정
-            isAjaxInProgress = false;
-        },
-        error: function () {
-            alert("Failed to fetch data.");
-
-            // 에러 발생 시 버튼을 활성화하고 텍스트를 다시 보이게 하고 스핀 아이콘을 중지하고 컨테이너를 숨김
-            $("#createDemoData").attr("disabled", false);
-            $("#textLabel").css("opacity", "1");
-            spinner.stop();
-            $('#spinnerContainer').hide();
-
-            // 에러 발생 시 AJAX 요청 진행 중 여부를 false로 설정
-            isAjaxInProgress = false;
+            message.classList.add('message-green');
+        } else {
+            throw new Error("Failed to fetch data.");
         }
-    });
+    } catch (error) {
+        console.error(error);
+
+        // 에러 발생 시 버튼을 활성화하고 텍스트를 다시 보이게 하고 스핀 아이콘을 중지하고 컨테이너를 숨김
+        document.getElementById("createDemoData").disabled = false;
+        document.getElementById("textLabel").style.opacity = "1";
+        spinner.stop();
+        document.getElementById("spinnerContainer").style.display = "none";
+
+        // 에러 발생 시 AJAX 요청 진행 중 여부를 false로 설정
+        isAjaxInProgress = false;
+        alert("Failed to fetch data.");
+    }
 });
 </script>
 
