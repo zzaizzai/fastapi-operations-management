@@ -132,7 +132,21 @@ html{
     }
 }
 
+.container {
+    display: flex;
+    justify-content: center; /* 요소를 가로 중앙으로 정렬하려면 사용 */
+    align-items: center; /* 요소를 세로 중앙으로 정렬하려면 사용 */
+}
 
+.vertical {
+    display: flex;
+    flex-direction: column; /* 수직으로 배치하기 위한 속성 */
+}
+
+.horizontal {
+    display: flex;
+    flex-direction: row; /* 수평으로 배치하기 위한 속성 */
+}
 
 .navbar {
     padding: 5px;

@@ -35,6 +35,7 @@ async def api_get_date_plan_calculated(operation_id: int = None):
 
 @router.get("/api/get_past_operations/{product_id}")
 async def api_get_past_operations(product_id: int = None):
+    time.sleep(1)
     operations = ProductOperation()\
         .search_products_operation_with_id(product_id=product_id)\
         .get_operations_data()

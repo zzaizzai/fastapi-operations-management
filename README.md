@@ -29,3 +29,14 @@ python init_database.py
 ```
 uvicorn main:app --host 127.0.0.1 --port 8001 --reload
 ```
+
+
+# About this project
+
+## search operations
+
+![Alt text](./app/core/static/img/readme2.png)
+
+## show Timeline and graph
+
+![Alt text](./app/core/static/img/readme1.png)

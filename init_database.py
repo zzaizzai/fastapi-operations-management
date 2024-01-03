@@ -203,7 +203,7 @@ def create_demodata() -> None:
 
     add_products(num_data_of_product)
     add_parts(num_data_of_product, 6)
-    add_product_operations(300, num_data_of_product)
+    add_product_operations(1000, num_data_of_product)
     
     print("Database initialized and tables created.")
     
