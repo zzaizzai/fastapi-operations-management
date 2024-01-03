@@ -1,26 +1,26 @@
-# Operations Management wirh fastapi
+# Operations Management with fastapi
 
 ![fastapi](https://img.shields.io/badge/fastapi-0.105-green)
 ![Python](https://img.shields.io/badge/Python-3.9.13-blue)
 
 
 
-## Explain
-Simple ERM(Enterprise Resources Planning ) System
+## Simple Explain
+Simple ERM(Enterprise Resources Planning ) System.   
 I think ERP system with microservice could be commercialized.
 
 **OM(Operations Management)**
 Orders(from other system) -> Create Production Operations -> Create Part Operations
 -> Calculate Production Plans -> Deliver to Customer
 
-## install
+## Install
 ```
 python -m venv venv
 venv\Scripts\activate
-(venv)python -m pip install -r .\requirements.txt
+(venv)python -m pip install -r requirements.txt
 ```
 
-## database sqlite
+## Database Sqlite
 ```
 python init_database.py
 ```
