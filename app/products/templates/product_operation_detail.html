@@ -118,7 +118,7 @@ h3 {
         </div>
     </div>
 
-    <div id="sameOperations" class="container">
+    <div id="sameOperations" class="container" style="width: 700px;">
         <!-- show oepration chart -->
     </div>
 
@@ -155,7 +155,9 @@ const getSameOperations = () => {
             operationBox.removeChild(operationBox.firstChild);
         }
         const chart = createChart("1", data, Number('{{operation.id}}'))
+
         operationBox.appendChild(chart)
+
         var sameOperations = document.getElementById("sameOperations");
 
     })
