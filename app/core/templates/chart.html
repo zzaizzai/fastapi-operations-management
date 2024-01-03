@@ -1,32 +1,68 @@
 
 <script>
 
-const createChart = (elementId, data) => {
-    // 새로운 canvas 요소 생성
+const createChart = (elementId, operation_data, current_operation_id) => {
+
+    // sorting
+    operation_data.sort((a, b) => new Date(a.date_due) - new Date(b.date_due));
+
+    // new canvas
     const canvas = document.createElement('canvas');
     canvas.id = elementId;
 
-    // 생성한 canvas 요소를 어떤 DOM 요소에든 추가할 수 있음
-    // 예를 들어, body 요소에 추가하는 경우:
-    // document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
     const myChart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar', 
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: operation_data.map(item => item.date_due), 
             datasets: [{
-                label: 'My First Dataset',
-                data: [12, 19, 3, 5, 2, 3],
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
+                label: 'Quantity',
+                data: operation_data.map(item => item.quantity), 
+                backgroundColor: operation_data.map(item => item.id === current_operation_id ? 'rgb(255, 99, 132)' : 'rgb(75, 192, 192)'),
             }]
+        },
+        options: {
+            animation: {
+                duration: 0, // Set duration to 0 to disable animations
+            },  
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Due Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Quantity'
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                },
+                tooltip: { // 호버 시 툴팁 설정
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: (tooltipItem) => {
+                            const dataIndex = tooltipItem.dataIndex;
+                            const id = operation_data[dataIndex].id;
+                            const quantity = operation_data[dataIndex].quantity;
+                            return `Id: ${id}, Quantity: ${quantity}`;
+                        }
+                    }
+                }
+            }
         }
     });
 
+
     return canvas;
 }
-
 
 </script>

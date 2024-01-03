@@ -114,11 +114,6 @@ h3 {
                 <div class="timeline-date">{{operation.datetime_created}}</div>
                 <div class="timeline-content">Created</div>
             </div>
-            <div class="timeline-item">
-                <div class="timeline-mark"></div>
-                <div class="timeline-date">{{operation.date_due}}</div>
-                <div class="timeline-content">Due</div>
-            </div> -->
             <!-- Add more timeline items here -->
         </div>
     </div>
@@ -130,7 +125,9 @@ h3 {
 
 
     <button class="mx-5 button button-blue" onclick="getSameOperations()">Show Other Operations</button>
-    <div id="sameOperations"></div>
+    <div id="sameOperations" class="container">
+        <!-- show oepration chart -->
+    </div>
 
 </div>
 
@@ -140,12 +137,13 @@ h3 {
 <script>
 
 const getSameOperations = () => {
-
+    showSpinner();
     fetch("/products/api/get_past_operations/{{operation.product_id}}", {
         method: "GET",
     })
     .then(response => {
         if (response.ok) {
+
             return response.json();
         } else {
             throw new Error("Error with API");
@@ -155,33 +153,26 @@ const getSameOperations = () => {
     .then(data => {
 
         const operationBox = document.getElementById("sameOperations")
-        
-        const aaaa = createChart("1", {})
-        operationBox.appendChild(aaaa)
+
+        while (operationBox.firstChild) {
+            operationBox.removeChild(operationBox.firstChild);
+        }
+        const chart = createChart("1", data, Number('{{operation.id}}'))
+        operationBox.appendChild(chart)
         var sameOperations = document.getElementById("sameOperations");
 
-
-        data.forEach(function (element) {
-            var operation = document.createElement("div");
-            operation.textContent = element.quantity;
-            sameOperations.appendChild(operation)
-        });
     })
     .catch(error => {
         console.error(error.message);
         alert("Error");
     })
     .finally(() => {
+        hideSpinner()
 
     });
 }
 
 
-
-</script>
-
-
-<script>
 const addTimeLine = (data)  => {
     var timeline = document.querySelector(".horizontal-timeline");
     var newTimelineItem = document.createElement("div");
