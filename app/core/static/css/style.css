@@ -1,6 +1,17 @@
 html{
     background-color: white;
+    font-family: Arial, sans-serif;
 }
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #555;
+}
+
 
 
 .button {
@@ -187,4 +198,23 @@ html{
 
 .button-disable{
     filter: brightness(0.7);
+}
+
+
+.container-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-details {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
