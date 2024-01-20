@@ -1,9 +1,13 @@
+import time
+
+
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
-import time
-from .model import ProductControl, ProductOperation
-router = APIRouter(prefix="/products")
+from ..model import ProductControl, ProductOperation
+
+
+router = APIRouter()
 
 templates = Jinja2Templates(directory=["app/core/templates", "app/products/templates"])
 
@@ -17,21 +21,6 @@ async def products_index_page(request: Request):
 async def make_product_orders(request: Request):
     return templates.TemplateResponse("make_product_orders.html", {"request": request})
 
-# @router.get("/api/get_date_plan_calculated")
-# async def api_get_date_plan_calculated(operation_id: int = None):
-#     # time.sleep(2)
-#     ph = Productoperation(operation_id=operation_id)
-#     date_plan_calculated = ph.get_date_start_plan_calculated()
-#     return date_plan_calculated
-
-
-@router.get("/api/get_time_line")
-async def api_get_date_plan_calculated(operation_id: int = None):
-    time.sleep(2)
-    ph = ProductOperation(operation_id=operation_id)
-    ph.get_product_operation_detail()
-    time_line_list = ph.get_time_line()
-    return time_line_list
 
 @router.get("/api/get_past_operations/{product_id}")
 async def api_get_past_operations(product_id: int = None):
@@ -44,7 +33,6 @@ async def api_get_past_operations(product_id: int = None):
     context = {}
     context['operations'] = operations
     return context
-
 
 
 @router.get("/operations")
@@ -61,6 +49,7 @@ async def view_operations(request: Request, sort: str = 'asc', order: str = None
     context['operations'] = operations
     return templates.TemplateResponse("product_operations.html", context)
 
+
 @router.get("/operation_detail/{operation_id}")
 async def product_operation_detail(request: Request, operation_id: int):
     context = {}
@@ -73,10 +62,6 @@ async def product_operation_detail(request: Request, operation_id: int):
         context['msg'] = 'no data'
         
     return templates.TemplateResponse("product_operation_detail.html", context)
-
-@router.get("/api/operations")
-async def api_operations():
-    return ProductOperation.get_all()
 
 
 
@@ -126,8 +111,14 @@ async def search_products_model(request: Request, q: str = None):
     return templates.TemplateResponse(html, context)
 
 
-
-@router.get("/api/get_all_model")
-async def api_get_all_products_model():
+@router.get("/month_report_list")
+async def month_report_list(request: Request):
+    html = "product_report_list.html"
     
-    return ProductControl().get_all()
+    context = {}
+    context['request'] = request
+    return templates.TemplateResponse(html, context)
+
+
+
+
