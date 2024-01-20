@@ -149,12 +149,14 @@ const getSameOperations = () => {
     })
     .then(data => {
 
+        const operations = data.operations
+        const dataList = data.date_list
         const operationBox = document.getElementById("sameOperations")
 
         while (operationBox.firstChild) {
             operationBox.removeChild(operationBox.firstChild);
         }
-        const chart = createChart("1", data, Number('{{operation.id}}'))
+        const chart = createChart("1", operations, Number('{{operation.id}}'))
 
         operationBox.appendChild(chart)
 

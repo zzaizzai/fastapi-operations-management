@@ -4,3 +4,4 @@ venv
 *.bat
 
 database.db-journal
+settings.json

@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from app.parts import endpoints as e_parts
 from app.core import endpoints as e_core
+# from app.products import endpoints
 from app.products import endpoints as e_products
 
 
